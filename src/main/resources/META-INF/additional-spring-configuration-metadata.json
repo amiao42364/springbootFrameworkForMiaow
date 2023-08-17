@@ -1,0 +1,89 @@
+{
+  "properties": [
+    {
+      "name": "miaow.name",
+      "type": "java.lang.String",
+      "description": "Description for miaow.name."
+    },
+    {
+      "name": "miaow.version",
+      "type": "java.lang.String",
+      "description": "Description for miaow.version."
+    },
+    {
+      "name": "miaow.profile",
+      "type": "java.lang.String",
+      "description": "Description for miaow.profile."
+    },
+    {
+      "name": "miaow.addressEnabled",
+      "type": "java.lang.String",
+      "description": "Description for miaow.addressEnabled."
+    },
+    {
+      "name": "spring.datasource.druid.master.driverClassName",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.druid.master.driverClassName."
+    },
+    {
+      "name": "spring.datasource.druid.master.url",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.druid.master.url."
+    },
+    {
+      "name": "spring.datasource.druid.master.username",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.druid.master.username."
+    },
+    {
+      "name": "spring.datasource.druid.master.password",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.druid.master.password."
+    },
+    {
+      "name": "spring.datasource.druid.slave.driverClassName",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.druid.slave.driverClassName."
+    },
+    {
+      "name": "spring.datasource.druid.slave.url",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.druid.slave.url."
+    },
+    {
+      "name": "spring.datasource.druid.slave.username",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.druid.slave.username."
+    },
+    {
+      "name": "spring.datasource.druid.slave.password",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.druid.slave.password."
+    },
+    {
+      "name": "mqtt.start",
+      "type": "java.lang.String",
+      "description": "Description for mqtt.start."
+    },
+    {
+      "name": "mqtt.broker",
+      "type": "java.lang.String",
+      "description": "Description for mqtt.broker."
+    },
+    {
+      "name": "mqtt.username",
+      "type": "java.lang.String",
+      "description": "Description for mqtt.username."
+    },
+    {
+      "name": "mqtt.password",
+      "type": "java.lang.String",
+      "description": "Description for mqtt.password."
+    },
+    {
+      "name": "mqtt.clientId",
+      "type": "java.lang.String",
+      "description": "Description for mqtt.clientId."
+    }
+  ]
+}
