@@ -2,15 +2,14 @@ package cn.miaow.framework.mapper.system;
 
 
 import cn.miaow.framework.entity.system.SysUserPost;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
 /**
  * 用户与岗位关联表 数据层
- *
- * @author ruoyi
  */
-public interface SysUserPostMapper {
+public interface SysUserPostMapper extends BaseMapper<SysUserPost> {
     /**
      * 通过用户ID删除用户和岗位关联
      *

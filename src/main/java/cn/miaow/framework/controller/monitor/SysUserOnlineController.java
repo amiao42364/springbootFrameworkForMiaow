@@ -11,7 +11,6 @@ import cn.miaow.framework.model.TableDataInfo;
 import cn.miaow.framework.service.system.ISysUserOnlineService;
 import cn.miaow.framework.util.RedisCache;
 import cn.miaow.framework.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,19 +25,22 @@ import java.util.List;
  * @author miaow
  */
 @RestController
-@RequestMapping("/monitor/online")
+@RequestMapping("/monitor/online" )
 public class SysUserOnlineController extends BaseController {
-    @Autowired
-    private ISysUserOnlineService userOnlineService;
+    private final ISysUserOnlineService userOnlineService;
 
-    @Autowired
-    private RedisCache redisCache;
+    private final RedisCache redisCache;
 
-    @PreAuthorize("@ss.hasPermi('monitor:online:list')")
-    @GetMapping("/list")
+    public SysUserOnlineController(ISysUserOnlineService userOnlineService, RedisCache redisCache) {
+        this.userOnlineService = userOnlineService;
+        this.redisCache = redisCache;
+    }
+
+    @PreAuthorize("@ss.hasPermission('monitor:online:list')" )
+    @GetMapping("/list" )
     public TableDataInfo list(String ipaddr, String userName) {
-        Collection<String> keys = redisCache.keys(CacheConstants.LOGIN_TOKEN_KEY + "*");
-        List<SysUserOnline> userOnlineList = new ArrayList<SysUserOnline>();
+        Collection<String> keys = redisCache.keys(CacheConstants.LOGIN_TOKEN_KEY + "*" );
+        List<SysUserOnline> userOnlineList = new ArrayList<>();
         for (String key : keys) {
             LoginUser user = redisCache.getCacheObject(key);
             if (StringUtils.isNotEmpty(ipaddr) && StringUtils.isNotEmpty(userName)) {
@@ -59,9 +61,9 @@ public class SysUserOnlineController extends BaseController {
     /**
      * 强退用户
      */
-    @PreAuthorize("@ss.hasPermi('monitor:online:forceLogout')")
-    @Log(title = "在线用户", businessType = BusinessType.FORCE)
-    @DeleteMapping("/{tokenId}")
+    @PreAuthorize("@ss.hasPermission('monitor:online:forceLogout')" )
+    @Log(title = "在线用户" , businessType = BusinessType.FORCE)
+    @DeleteMapping("/{tokenId}" )
     public AjaxResult forceLogout(@PathVariable String tokenId) {
         redisCache.deleteObject(CacheConstants.LOGIN_TOKEN_KEY + tokenId);
         return success();

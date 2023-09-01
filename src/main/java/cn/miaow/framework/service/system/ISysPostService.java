@@ -1,15 +1,16 @@
 package cn.miaow.framework.service.system;
 
 import cn.miaow.framework.entity.system.SysPost;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
 /**
  * 岗位信息 服务层
  *
- * @author ruoyi
+ * @author miaow
  */
-public interface ISysPostService {
+public interface ISysPostService extends IService<SysPost> {
     /**
      * 查询岗位信息集合
      *

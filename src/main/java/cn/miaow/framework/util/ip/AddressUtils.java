@@ -6,20 +6,19 @@ import cn.miaow.framework.util.StringUtils;
 import cn.miaow.framework.util.http.HttpUtils;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 获取地址类
  *
- * @author ruoyi
+ * @author miaow
  */
+@Slf4j
 public class AddressUtils {
     // IP地址查询
     public static final String IP_URL = "http://whois.pconline.com.cn/ipJson.jsp";
     // 未知地址
     public static final String UNKNOWN = "XX XX";
-    private static final Logger log = LoggerFactory.getLogger(AddressUtils.class);
 
     public static String getRealAddressByIP(String ip) {
         // 内网不查询

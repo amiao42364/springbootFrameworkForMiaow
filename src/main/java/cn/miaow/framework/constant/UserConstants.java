@@ -5,6 +5,7 @@ package cn.miaow.framework.constant;
  *
  * @author miaow
  */
+@SuppressWarnings("unused")
 public class UserConstants {
     /**
      * 平台内系统用户的唯一标志

@@ -4,6 +4,7 @@ import cn.miaow.framework.entity.system.SysDictData;
 import cn.miaow.framework.mapper.system.SysDictDataMapper;
 import cn.miaow.framework.service.system.ISysDictDataService;
 import cn.miaow.framework.util.DictUtils;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +12,9 @@ import java.util.List;
 
 /**
  * 字典 业务层处理
- *
- * @author ruoyi
  */
 @Service
-public class SysDictDataServiceImpl implements ISysDictDataService {
+public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDictData> implements ISysDictDataService {
     @Autowired
     private SysDictDataMapper dictDataMapper;
 

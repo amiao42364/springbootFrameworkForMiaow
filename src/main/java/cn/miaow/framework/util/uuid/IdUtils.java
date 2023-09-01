@@ -3,7 +3,7 @@ package cn.miaow.framework.util.uuid;
 /**
  * ID生成器工具类
  *
- * @author ruoyi
+ * @author miaow
  */
 public class IdUtils {
     /**

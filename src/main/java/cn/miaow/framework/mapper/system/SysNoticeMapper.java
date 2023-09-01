@@ -2,15 +2,14 @@ package cn.miaow.framework.mapper.system;
 
 
 import cn.miaow.framework.entity.system.SysNotice;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
 /**
  * 通知公告表 数据层
- *
- * @author ruoyi
  */
-public interface SysNoticeMapper {
+public interface SysNoticeMapper  extends BaseMapper<SysNotice> {
     /**
      * 查询公告信息
      *

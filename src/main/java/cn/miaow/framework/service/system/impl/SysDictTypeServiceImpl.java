@@ -9,6 +9,7 @@ import cn.miaow.framework.mapper.system.SysDictTypeMapper;
 import cn.miaow.framework.service.system.ISysDictTypeService;
 import cn.miaow.framework.util.DictUtils;
 import cn.miaow.framework.util.StringUtils;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +22,9 @@ import java.util.stream.Collectors;
 
 /**
  * 字典 业务层处理
- *
- * @author ruoyi
  */
 @Service
-public class SysDictTypeServiceImpl implements ISysDictTypeService {
+public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDictType> implements ISysDictTypeService {
     @Autowired
     private SysDictTypeMapper dictTypeMapper;
 

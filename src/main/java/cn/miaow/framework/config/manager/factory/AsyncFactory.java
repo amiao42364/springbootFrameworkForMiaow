@@ -3,10 +3,10 @@ package cn.miaow.framework.config.manager.factory;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import cn.miaow.framework.constant.Constants;
-import cn.miaow.framework.entity.system.SysLogininfor;
-import cn.miaow.framework.entity.system.SysOperLog;
-import cn.miaow.framework.service.system.ISysLogininforService;
-import cn.miaow.framework.service.system.ISysOperLogService;
+import cn.miaow.framework.entity.system.SysLoginInfo;
+import cn.miaow.framework.entity.system.SysOperationLog;
+import cn.miaow.framework.service.system.ISysLoginInfoService;
+import cn.miaow.framework.service.system.ISysOperationLogService;
 import cn.miaow.framework.util.LogUtils;
 import cn.miaow.framework.util.ServletUtils;
 import cn.miaow.framework.util.StringUtils;
@@ -43,20 +43,19 @@ public class AsyncFactory {
             @Override
             public void run() {
                 String address = AddressUtils.getRealAddressByIP(ip);
-                StringBuilder s = new StringBuilder();
-                s.append(LogUtils.getBlock(ip));
-                s.append(address);
-                s.append(LogUtils.getBlock(username));
-                s.append(LogUtils.getBlock(status));
-                s.append(LogUtils.getBlock(message));
+                String s = LogUtils.getBlock(ip) +
+                        address +
+                        LogUtils.getBlock(username) +
+                        LogUtils.getBlock(status) +
+                        LogUtils.getBlock(message);
                 // 打印信息到日志
-                sys_user_logger.info(s.toString(), args);
+                sys_user_logger.info(s, args);
                 // 获取客户端操作系统
                 String os = userAgent.getOs().getName();
                 // 获取客户端浏览器
                 String browser = userAgent.getBrowser().getName();
                 // 封装对象
-                SysLogininfor logininfor = new SysLogininfor();
+                SysLoginInfo logininfor = new SysLoginInfo();
                 logininfor.setUserName(username);
                 logininfor.setIpaddr(ip);
                 logininfor.setLoginLocation(address);
@@ -70,7 +69,7 @@ public class AsyncFactory {
                     logininfor.setStatus(Constants.FAIL);
                 }
                 // 插入数据
-                SpringUtils.getBean(ISysLogininforService.class).insertLogininfor(logininfor);
+                SpringUtils.getBean(ISysLoginInfoService.class).insertLogininfor(logininfor);
             }
         };
     }
@@ -78,16 +77,16 @@ public class AsyncFactory {
     /**
      * 操作日志记录
      *
-     * @param operLog 操作日志信息
+     * @param operationLog 操作日志信息
      * @return 任务task
      */
-    public static TimerTask recordOper(final SysOperLog operLog) {
+    public static TimerTask recordOperation(final SysOperationLog operationLog) {
         return new TimerTask() {
             @Override
             public void run() {
                 // 远程查询操作地点
-                operLog.setOperLocation(AddressUtils.getRealAddressByIP(operLog.getOperIp()));
-                SpringUtils.getBean(ISysOperLogService.class).insertOperlog(operLog);
+                operationLog.setOperationLocation(AddressUtils.getRealAddressByIP(operationLog.getOperationIp()));
+                SpringUtils.getBean(ISysOperationLogService.class).insertOperlog(operationLog);
             }
         };
     }

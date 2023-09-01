@@ -1,15 +1,14 @@
 package cn.miaow.framework.mapper.system;
 
 import cn.miaow.framework.entity.system.SysRole;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
 /**
  * 角色表 数据层
- *
- * @author ruoyi
  */
-public interface SysRoleMapper {
+public interface SysRoleMapper extends BaseMapper<SysRole> {
     /**
      * 根据条件分页查询角色数据
      *

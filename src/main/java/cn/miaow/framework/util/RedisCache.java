@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author miaow
  */
+@SuppressWarnings(value = {"unchecked", "rawtypes", "unused"})
 @Component
 public class RedisCache {
     public final RedisTemplate redisTemplate;
@@ -64,7 +65,7 @@ public class RedisCache {
      * @return true=设置成功；false=设置失败
      */
     public boolean expire(final String key, final long timeout, final TimeUnit unit) {
-        return redisTemplate.expire(key, timeout, unit);
+        return Boolean.TRUE.equals(redisTemplate.expire(key, timeout, unit));
     }
 
     /**
@@ -73,7 +74,7 @@ public class RedisCache {
      * @param key Redis键
      * @return 有效时间
      */
-    public long getExpire(final String key) {
+    public Long getExpire(final String key) {
         return redisTemplate.getExpire(key);
     }
 
@@ -101,20 +102,20 @@ public class RedisCache {
     /**
      * 删除单个对象
      *
-     * @param key
+     * @param key key
      */
     public boolean deleteObject(final String key) {
-        return redisTemplate.delete(key);
+        return Boolean.TRUE.equals(redisTemplate.delete(key));
     }
 
     /**
      * 删除集合对象
      *
      * @param collection 多个对象
-     * @return
      */
     public boolean deleteObject(final Collection collection) {
-        return redisTemplate.delete(collection) > 0;
+        Long count = redisTemplate.delete(collection);
+        return count != null && count > 0;
     }
 
     /**
@@ -148,9 +149,8 @@ public class RedisCache {
      */
     public <T> BoundSetOperations<String, T> setCacheSet(final String key, final Set<T> dataSet) {
         BoundSetOperations<String, T> setOperation = redisTemplate.boundSetOps(key);
-        Iterator<T> it = dataSet.iterator();
-        while (it.hasNext()) {
-            setOperation.add(it.next());
+        for (T t : dataSet) {
+            setOperation.add(t);
         }
         return setOperation;
     }
@@ -158,8 +158,7 @@ public class RedisCache {
     /**
      * 获得缓存的set
      *
-     * @param key
-     * @return
+     * @param key key
      */
     public <T> Set<T> getCacheSet(final String key) {
         return redisTemplate.opsForSet().members(key);
@@ -167,9 +166,6 @@ public class RedisCache {
 
     /**
      * 缓存Map
-     *
-     * @param key
-     * @param dataMap
      */
     public <T> void setCacheMap(final String key, final Map<String, T> dataMap) {
         if (dataMap != null) {
@@ -179,9 +175,6 @@ public class RedisCache {
 
     /**
      * 获得缓存的Map
-     *
-     * @param key
-     * @return
      */
     public <T> Map<String, T> getCacheMap(final String key) {
         return redisTemplate.opsForHash().entries(key);

@@ -4,8 +4,6 @@ import cn.miaow.framework.util.StringUtils;
 
 /**
  * 路由显示信息
- *
- * @author ruoyi
  */
 public class MetaVo {
     /**

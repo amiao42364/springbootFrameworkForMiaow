@@ -2,15 +2,16 @@ package cn.miaow.framework.service.system;
 
 import cn.miaow.framework.entity.system.SysDictData;
 import cn.miaow.framework.entity.system.SysDictType;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
 /**
  * 字典 业务层
  *
- * @author ruoyi
+ * @author miaow
  */
-public interface ISysDictTypeService {
+public interface ISysDictTypeService extends IService<SysDictType> {
     /**
      * 根据条件分页查询字典类型
      *

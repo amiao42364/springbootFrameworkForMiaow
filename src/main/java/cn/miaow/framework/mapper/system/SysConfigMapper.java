@@ -1,15 +1,14 @@
 package cn.miaow.framework.mapper.system;
 
 import cn.miaow.framework.entity.system.SysConfig;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
 /**
  * 参数配置 数据层
- *
- * @author ruoyi
  */
-public interface SysConfigMapper {
+public interface SysConfigMapper  extends BaseMapper<SysConfig> {
     /**
      * 查询参数配置信息
      *

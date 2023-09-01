@@ -13,10 +13,6 @@ import java.io.IOException;
  * @author miaow
  */
 public class RepeatableFilter implements Filter {
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
-    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -31,10 +27,5 @@ public class RepeatableFilter implements Filter {
         } else {
             chain.doFilter(requestWrapper, response);
         }
-    }
-
-    @Override
-    public void destroy() {
-
     }
 }

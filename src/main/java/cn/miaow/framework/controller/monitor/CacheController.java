@@ -4,7 +4,7 @@ import cn.miaow.framework.constant.CacheConstants;
 import cn.miaow.framework.entity.system.SysCache;
 import cn.miaow.framework.model.AjaxResult;
 import cn.miaow.framework.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,85 +18,91 @@ import java.util.*;
  * @author miaow
  */
 @RestController
-@RequestMapping("/monitor/cache")
+@RequestMapping("/monitor/cache" )
 public class CacheController {
-    private final static List<SysCache> caches = new ArrayList<SysCache>();
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private final static List<SysCache> caches = new ArrayList<>();
+    private final RedisTemplate<String, String> redisTemplate;
 
-    {
-        caches.add(new SysCache(CacheConstants.LOGIN_TOKEN_KEY, "用户信息"));
-        caches.add(new SysCache(CacheConstants.SYS_CONFIG_KEY, "配置信息"));
-        caches.add(new SysCache(CacheConstants.SYS_DICT_KEY, "数据字典"));
-        caches.add(new SysCache(CacheConstants.CAPTCHA_CODE_KEY, "验证码"));
-        caches.add(new SysCache(CacheConstants.REPEAT_SUBMIT_KEY, "防重提交"));
-        caches.add(new SysCache(CacheConstants.RATE_LIMIT_KEY, "限流处理"));
-        caches.add(new SysCache(CacheConstants.PWD_ERR_CNT_KEY, "密码错误次数"));
+    static {
+        caches.add(new SysCache(CacheConstants.LOGIN_TOKEN_KEY, "用户信息" ));
+        caches.add(new SysCache(CacheConstants.SYS_CONFIG_KEY, "配置信息" ));
+        caches.add(new SysCache(CacheConstants.SYS_DICT_KEY, "数据字典" ));
+        caches.add(new SysCache(CacheConstants.CAPTCHA_CODE_KEY, "验证码" ));
+        caches.add(new SysCache(CacheConstants.REPEAT_SUBMIT_KEY, "防重提交" ));
+        caches.add(new SysCache(CacheConstants.RATE_LIMIT_KEY, "限流处理" ));
+        caches.add(new SysCache(CacheConstants.PWD_ERR_CNT_KEY, "密码错误次数" ));
     }
 
-    @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
+    public CacheController(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    @PreAuthorize("@ss.hasPermission('monitor:cache:list')" )
     @GetMapping()
     public AjaxResult getInfo() throws Exception {
-        Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info());
-        Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
-        Object dbSize = redisTemplate.execute((RedisCallback<Object>) connection -> connection.dbSize());
+        Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::info);
+        Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats" ));
+        Object dbSize = redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
 
         Map<String, Object> result = new HashMap<>(3);
-        result.put("info", info);
-        result.put("dbSize", dbSize);
+        result.put("info" , info);
+        result.put("dbSize" , dbSize);
 
         List<Map<String, String>> pieList = new ArrayList<>();
+        assert commandStats != null;
         commandStats.stringPropertyNames().forEach(key -> {
             Map<String, String> data = new HashMap<>(2);
             String property = commandStats.getProperty(key);
-            data.put("name", StringUtils.removeStart(key, "cmdstat_"));
-            data.put("value", StringUtils.substringBetween(property, "calls=", ",usec"));
+            data.put("name" , StringUtils.removeStart(key, "cmdstat_" ));
+            data.put("value" , StringUtils.substringBetween(property, "calls=" , ",usec" ));
             pieList.add(data);
         });
-        result.put("commandStats", pieList);
+        result.put("commandStats" , pieList);
         return AjaxResult.success(result);
     }
 
-    @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
-    @GetMapping("/getNames")
+    @PreAuthorize("@ss.hasPermission('monitor:cache:list')" )
+    @GetMapping("/getNames" )
     public AjaxResult cache() {
         return AjaxResult.success(caches);
     }
 
-    @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
-    @GetMapping("/getKeys/{cacheName}")
+    @PreAuthorize("@ss.hasPermission('monitor:cache:list')" )
+    @GetMapping("/getKeys/{cacheName}" )
     public AjaxResult getCacheKeys(@PathVariable String cacheName) {
-        Set<String> cacheKeys = redisTemplate.keys(cacheName + "*");
+        Set<String> cacheKeys = redisTemplate.keys(cacheName + "*" );
         return AjaxResult.success(cacheKeys);
     }
 
-    @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
-    @GetMapping("/getValue/{cacheName}/{cacheKey}")
+    @PreAuthorize("@ss.hasPermission('monitor:cache:list')" )
+    @GetMapping("/getValue/{cacheName}/{cacheKey}" )
     public AjaxResult getCacheValue(@PathVariable String cacheName, @PathVariable String cacheKey) {
         String cacheValue = redisTemplate.opsForValue().get(cacheKey);
         SysCache sysCache = new SysCache(cacheName, cacheKey, cacheValue);
         return AjaxResult.success(sysCache);
     }
 
-    @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
-    @DeleteMapping("/clearCacheName/{cacheName}")
+    @PreAuthorize("@ss.hasPermission('monitor:cache:list')" )
+    @DeleteMapping("/clearCacheName/{cacheName}" )
     public AjaxResult clearCacheName(@PathVariable String cacheName) {
-        Collection<String> cacheKeys = redisTemplate.keys(cacheName + "*");
+        Collection<String> cacheKeys = redisTemplate.keys(cacheName + "*" );
+        assert cacheKeys != null;
         redisTemplate.delete(cacheKeys);
         return AjaxResult.success();
     }
 
-    @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
-    @DeleteMapping("/clearCacheKey/{cacheKey}")
+    @PreAuthorize("@ss.hasPermission('monitor:cache:list')" )
+    @DeleteMapping("/clearCacheKey/{cacheKey}" )
     public AjaxResult clearCacheKey(@PathVariable String cacheKey) {
         redisTemplate.delete(cacheKey);
         return AjaxResult.success();
     }
 
-    @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
-    @DeleteMapping("/clearCacheAll")
+    @PreAuthorize("@ss.hasPermission('monitor:cache:list')" )
+    @DeleteMapping("/clearCacheAll" )
     public AjaxResult clearCacheAll() {
-        Collection<String> cacheKeys = redisTemplate.keys("*");
+        Collection<String> cacheKeys = redisTemplate.keys("*" );
+        assert cacheKeys != null;
         redisTemplate.delete(cacheKeys);
         return AjaxResult.success();
     }

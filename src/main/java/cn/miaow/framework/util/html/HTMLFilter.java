@@ -9,8 +9,9 @@ import java.util.regex.Pattern;
 /**
  * HTML过滤器，用于去除XSS漏洞隐患。
  *
- * @author ruoyi
+ * @author miaow
  */
+@SuppressWarnings("unused")
 public final class HTMLFilter {
     /**
      * regex flag union representing /si modifiers in php
@@ -348,10 +349,6 @@ public final class HTMLFilter {
                     paramName = paramNames.get(ii).toLowerCase();
                     paramValue = paramValues.get(ii);
 
-                    // debug( "paramName='" + paramName + "'" );
-                    // debug( "paramValue='" + paramValue + "'" );
-                    // debug( "allowed? " + vAllowed.get( name ).contains( paramName ) );
-
                     if (allowedAttribute(name, paramName)) {
                         if (inArray(paramName, vProtocolAtts)) {
                             paramValue = processParamProtocol(paramValue);
@@ -415,7 +412,7 @@ public final class HTMLFilter {
         Matcher m = P_ENTITY.matcher(s);
         while (m.find()) {
             final String match = m.group(1);
-            final int decimal = Integer.decode(match).intValue();
+            final int decimal = Integer.decode(match);
             m.appendReplacement(buf, Matcher.quoteReplacement(chr(decimal)));
         }
         m.appendTail(buf);
@@ -425,7 +422,7 @@ public final class HTMLFilter {
         m = P_ENTITY_UNICODE.matcher(s);
         while (m.find()) {
             final String match = m.group(1);
-            final int decimal = Integer.valueOf(match, 16).intValue();
+            final int decimal = Integer.valueOf(match, 16);
             m.appendReplacement(buf, Matcher.quoteReplacement(chr(decimal)));
         }
         m.appendTail(buf);
@@ -435,7 +432,7 @@ public final class HTMLFilter {
         m = P_ENCODE.matcher(s);
         while (m.find()) {
             final String match = m.group(1);
-            final int decimal = Integer.valueOf(match, 16).intValue();
+            final int decimal = Integer.valueOf(match, 16);
             m.appendReplacement(buf, Matcher.quoteReplacement(chr(decimal)));
         }
         m.appendTail(buf);

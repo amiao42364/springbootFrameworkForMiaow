@@ -66,7 +66,7 @@ public class DataScopeAspect {
      */
     public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String deptAlias, String userAlias, String permission) {
         StringBuilder sqlString = new StringBuilder();
-        List<String> conditions = new ArrayList<String>();
+        List<String> conditions = new ArrayList<>();
 
         for (SysRole role : user.getRoles()) {
             String dataScope = role.getDataScope();
@@ -81,17 +81,17 @@ public class DataScopeAspect {
                 conditions.add(dataScope);
                 break;
             } else if (DATA_SCOPE_CUSTOM.equals(dataScope)) {
-                sqlString.append(StringUtils.format(" OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ", deptAlias, role.getRoleId()));
+                sqlString.append(StringUtils.format(" OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) " , deptAlias, role.getRoleId()));
             } else if (DATA_SCOPE_DEPT.equals(dataScope)) {
-                sqlString.append(StringUtils.format(" OR {}.dept_id = {} ", deptAlias, user.getDeptId()));
+                sqlString.append(StringUtils.format(" OR {}.dept_id = {} " , deptAlias, user.getDeptId()));
             } else if (DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope)) {
-                sqlString.append(StringUtils.format(" OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or find_in_set( {} , ancestors ) )", deptAlias, user.getDeptId(), user.getDeptId()));
+                sqlString.append(StringUtils.format(" OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or find_in_set( {} , ancestors ) )" , deptAlias, user.getDeptId(), user.getDeptId()));
             } else if (DATA_SCOPE_SELF.equals(dataScope)) {
                 if (StringUtils.isNotBlank(userAlias)) {
-                    sqlString.append(StringUtils.format(" OR {}.user_id = {} ", userAlias, user.getUserId()));
+                    sqlString.append(StringUtils.format(" OR {}.user_id = {} " , userAlias, user.getUserId()));
                 } else {
                     // 数据权限为仅本人且没有userAlias别名不查询任何数据
-                    sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
+                    sqlString.append(StringUtils.format(" OR {}.dept_id = 0 " , deptAlias));
                 }
             }
             conditions.add(dataScope);
@@ -99,20 +99,20 @@ public class DataScopeAspect {
 
         // 多角色情况下，所有角色都不包含传递过来的权限字符，这个时候sqlString也会为空，所以要限制一下,不查询任何数据
         if (StringUtils.isEmpty(conditions)) {
-            sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
+            sqlString.append(StringUtils.format(" OR {}.dept_id = 0 " , deptAlias));
         }
 
         if (StringUtils.isNotBlank(sqlString.toString())) {
             Object params = joinPoint.getArgs()[0];
             if (StringUtils.isNotNull(params) && params instanceof BaseEntity) {
                 BaseEntity baseEntity = (BaseEntity) params;
-                baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
+                baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")" );
             }
         }
     }
 
-    @Before("@annotation(controllerDataScope)")
-    public void doBefore(JoinPoint point, DataScope controllerDataScope) throws Throwable {
+    @Before("@annotation(controllerDataScope)" )
+    public void doBefore(JoinPoint point, DataScope controllerDataScope) {
         clearDataScope(point);
         handleDataScope(point, controllerDataScope);
     }
@@ -137,7 +137,7 @@ public class DataScopeAspect {
         Object params = joinPoint.getArgs()[0];
         if (StringUtils.isNotNull(params) && params instanceof BaseEntity) {
             BaseEntity baseEntity = (BaseEntity) params;
-            baseEntity.getParams().put(DATA_SCOPE, "");
+            baseEntity.getParams().put(DATA_SCOPE, "" );
         }
     }
 }

@@ -2,8 +2,6 @@ package cn.miaow.framework.exception;
 
 /**
  * 全局异常
- *
- * @author ruoyi
  */
 public class GlobalException extends RuntimeException {
     private static final long serialVersionUID = 1L;

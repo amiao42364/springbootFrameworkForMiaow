@@ -2,8 +2,7 @@ package cn.miaow.framework.util.http;
 
 import cn.miaow.framework.constant.Constants;
 import cn.miaow.framework.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.*;
 import java.io.*;
@@ -17,10 +16,11 @@ import java.security.cert.X509Certificate;
 /**
  * 通用http发送方法
  *
- * @author ruoyi
+ * @author miaow
  */
+@Slf4j
+@SuppressWarnings("unused")
 public class HttpUtils {
-    private static final Logger log = LoggerFactory.getLogger(HttpUtils.class);
 
     /**
      * 向指定 URL 发送GET方法的请求
@@ -102,15 +102,7 @@ public class HttpUtils {
         StringBuilder result = new StringBuilder();
         try {
             log.info("sendPost - {}", url);
-            URL realUrl = new URL(url);
-            URLConnection conn = realUrl.openConnection();
-            conn.setRequestProperty("accept", "*/*");
-            conn.setRequestProperty("connection", "Keep-Alive");
-            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-            conn.setRequestProperty("Accept-Charset", "utf-8");
-            conn.setRequestProperty("contentType", "utf-8");
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
+            URLConnection conn = getUrlConnection(url);
             out = new PrintWriter(conn.getOutputStream());
             out.print(param);
             out.flush();
@@ -141,6 +133,19 @@ public class HttpUtils {
             }
         }
         return result.toString();
+    }
+
+    private static URLConnection getUrlConnection(String url) throws IOException {
+        URL realUrl = new URL(url);
+        URLConnection conn = realUrl.openConnection();
+        conn.setRequestProperty("accept", "*/*");
+        conn.setRequestProperty("connection", "Keep-Alive");
+        conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+        conn.setRequestProperty("Accept-Charset", "utf-8");
+        conn.setRequestProperty("contentType", "utf-8");
+        conn.setDoOutput(true);
+        conn.setDoInput(true);
+        return conn;
     }
 
     public static String sendSSLPost(String url, String param) {

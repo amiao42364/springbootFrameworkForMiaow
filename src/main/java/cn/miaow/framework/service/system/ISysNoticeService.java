@@ -1,15 +1,16 @@
 package cn.miaow.framework.service.system;
 
 import cn.miaow.framework.entity.system.SysNotice;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
 /**
  * 公告 服务层
  *
- * @author ruoyi
+ * @author miaow
  */
-public interface ISysNoticeService {
+public interface ISysNoticeService  extends IService<SysNotice> {
     /**
      * 查询公告信息
      *

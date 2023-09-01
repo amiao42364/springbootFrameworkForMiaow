@@ -1,15 +1,16 @@
 package cn.miaow.framework.service.system;
 
 import cn.miaow.framework.entity.system.SysDictData;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
 /**
  * 字典 业务层
  *
- * @author ruoyi
+ * @author miaow
  */
-public interface ISysDictDataService {
+public interface ISysDictDataService  extends IService<SysDictData> {
     /**
      * 根据条件分页查询字典数据
      *

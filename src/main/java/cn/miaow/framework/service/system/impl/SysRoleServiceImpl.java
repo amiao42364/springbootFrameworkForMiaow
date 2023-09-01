@@ -4,14 +4,12 @@ import cn.miaow.framework.aspectj.annotation.DataScope;
 import cn.miaow.framework.constant.UserConstants;
 import cn.miaow.framework.entity.system.*;
 import cn.miaow.framework.exception.ServiceException;
-import cn.miaow.framework.mapper.system.SysRoleDeptMapper;
-import cn.miaow.framework.mapper.system.SysRoleMapper;
-import cn.miaow.framework.mapper.system.SysRoleMenuMapper;
-import cn.miaow.framework.mapper.system.SysUserRoleMapper;
+import cn.miaow.framework.mapper.system.*;
 import cn.miaow.framework.service.system.ISysRoleService;
 import cn.miaow.framework.util.SecurityUtils;
 import cn.miaow.framework.util.StringUtils;
 import cn.miaow.framework.util.spring.SpringUtils;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +18,9 @@ import java.util.*;
 
 /**
  * 角色 业务层处理
- *
- * @author ruoyi
  */
 @Service
-public class SysRoleServiceImpl implements ISysRoleService {
+public class SysRoleServiceImpl  extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
     @Autowired
     private SysRoleMapper roleMapper;
 

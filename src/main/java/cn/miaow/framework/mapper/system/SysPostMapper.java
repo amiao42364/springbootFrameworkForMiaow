@@ -1,15 +1,14 @@
 package cn.miaow.framework.mapper.system;
 
 import cn.miaow.framework.entity.system.SysPost;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
 /**
  * 岗位信息 数据层
- *
- * @author ruoyi
  */
-public interface SysPostMapper {
+public interface SysPostMapper  extends BaseMapper<SysPost> {
     /**
      * 查询岗位数据集合
      *

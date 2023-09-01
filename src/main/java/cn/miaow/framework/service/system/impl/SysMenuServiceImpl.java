@@ -14,6 +14,7 @@ import cn.miaow.framework.model.res.RouterVo;
 import cn.miaow.framework.service.system.ISysMenuService;
 import cn.miaow.framework.util.SecurityUtils;
 import cn.miaow.framework.util.StringUtils;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +23,9 @@ import java.util.stream.Collectors;
 
 /**
  * 菜单 业务层处理
- *
- * @author ruoyi
  */
 @Service
-public class SysMenuServiceImpl implements ISysMenuService {
+public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
     public static final String PREMISSION_STRING = "perms[\"{0}\"]";
 
     @Autowired

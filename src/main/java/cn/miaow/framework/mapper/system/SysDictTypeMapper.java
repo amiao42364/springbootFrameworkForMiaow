@@ -2,15 +2,14 @@ package cn.miaow.framework.mapper.system;
 
 
 import cn.miaow.framework.entity.system.SysDictType;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
 /**
  * 字典表 数据层
- *
- * @author ruoyi
  */
-public interface SysDictTypeMapper {
+public interface SysDictTypeMapper  extends BaseMapper<SysDictType> {
     /**
      * 根据条件分页查询字典类型
      *

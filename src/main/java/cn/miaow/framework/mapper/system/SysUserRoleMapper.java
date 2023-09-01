@@ -1,16 +1,15 @@
 package cn.miaow.framework.mapper.system;
 
 import cn.miaow.framework.entity.system.SysUserRole;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
  * 用户与角色关联表 数据层
- *
- * @author ruoyi
  */
-public interface SysUserRoleMapper {
+public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
     /**
      * 通过用户ID删除用户和角色关联
      *

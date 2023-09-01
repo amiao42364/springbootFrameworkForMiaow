@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @Slf4j
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@MapperScan("com.miaow.framework.mapper")
+@MapperScan("cn.miaow.framework.mapper")
 @EnableScheduling
 public class StartApplication {
 

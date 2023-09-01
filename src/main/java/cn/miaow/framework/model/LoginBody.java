@@ -2,8 +2,6 @@ package cn.miaow.framework.model;
 
 /**
  * 用户登录对象
- *
- * @author ruoyi
  */
 public class LoginBody {
     /**

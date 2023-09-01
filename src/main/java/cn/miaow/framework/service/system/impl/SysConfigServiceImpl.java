@@ -11,7 +11,7 @@ import cn.miaow.framework.service.system.ISysConfigService;
 import cn.miaow.framework.util.Convert;
 import cn.miaow.framework.util.RedisCache;
 import cn.miaow.framework.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -20,16 +20,17 @@ import java.util.List;
 
 /**
  * 参数配置 服务层实现
- *
- * @author ruoyi
  */
 @Service
-public class SysConfigServiceImpl implements ISysConfigService {
-    @Autowired
-    private SysConfigMapper configMapper;
+public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig> implements ISysConfigService {
+    private final SysConfigMapper configMapper;
 
-    @Autowired
-    private RedisCache redisCache;
+    private final RedisCache redisCache;
+
+    public SysConfigServiceImpl(SysConfigMapper configMapper, RedisCache redisCache) {
+        this.configMapper = configMapper;
+        this.redisCache = redisCache;
+    }
 
     /**
      * 项目启动时，初始化参数到缓存
@@ -189,9 +190,9 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public boolean checkConfigKeyUnique(SysConfig config) {
-        Long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
+        long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
         SysConfig info = configMapper.checkConfigKeyUnique(config.getConfigKey());
-        if (StringUtils.isNotNull(info) && info.getConfigId().longValue() != configId.longValue()) {
+        if (StringUtils.isNotNull(info) && info.getConfigId() != configId) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;

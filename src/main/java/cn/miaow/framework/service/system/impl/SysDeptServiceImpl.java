@@ -14,6 +14,7 @@ import cn.miaow.framework.util.Convert;
 import cn.miaow.framework.util.SecurityUtils;
 import cn.miaow.framework.util.StringUtils;
 import cn.miaow.framework.util.spring.SpringUtils;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,9 @@ import java.util.stream.Collectors;
 
 /**
  * 部门管理 服务实现
- *
- * @author ruoyi
  */
 @Service
-public class SysDeptServiceImpl implements ISysDeptService {
+public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements ISysDeptService {
     @Autowired
     private SysDeptMapper deptMapper;
 

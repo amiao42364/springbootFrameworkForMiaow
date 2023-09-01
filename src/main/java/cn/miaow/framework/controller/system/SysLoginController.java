@@ -1,7 +1,7 @@
 package cn.miaow.framework.controller.system;
 
-import cn.miaow.framework.config.web.service.SysLoginService;
-import cn.miaow.framework.config.web.service.SysPermissionService;
+import cn.miaow.framework.config.security.impl.SysLoginService;
+import cn.miaow.framework.config.security.impl.SysPermissionService;
 import cn.miaow.framework.constant.Constants;
 import cn.miaow.framework.entity.system.SysMenu;
 import cn.miaow.framework.entity.system.SysUser;
@@ -9,7 +9,6 @@ import cn.miaow.framework.model.AjaxResult;
 import cn.miaow.framework.model.LoginBody;
 import cn.miaow.framework.service.system.ISysMenuService;
 import cn.miaow.framework.util.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,14 +24,17 @@ import java.util.Set;
  */
 @RestController
 public class SysLoginController {
-    @Autowired
-    private SysLoginService loginService;
+    private final SysLoginService loginService;
 
-    @Autowired
-    private ISysMenuService menuService;
+    private final ISysMenuService menuService;
 
-    @Autowired
-    private SysPermissionService permissionService;
+    private final SysPermissionService permissionService;
+
+    public SysLoginController(SysLoginService loginService, ISysMenuService menuService, SysPermissionService permissionService) {
+        this.loginService = loginService;
+        this.menuService = menuService;
+        this.permissionService = permissionService;
+    }
 
     /**
      * 登录方法
@@ -40,7 +42,7 @@ public class SysLoginController {
      * @param loginBody 登录信息
      * @return 结果
      */
-    @PostMapping("/login")
+    @PostMapping("/login" )
     public AjaxResult login(@RequestBody LoginBody loginBody) {
         AjaxResult ajax = AjaxResult.success();
         // 生成令牌
@@ -55,7 +57,7 @@ public class SysLoginController {
      *
      * @return 用户信息
      */
-    @GetMapping("getInfo")
+    @GetMapping("getInfo" )
     public AjaxResult getInfo() {
         SysUser user = SecurityUtils.getLoginUser().getUser();
         // 角色集合
@@ -63,9 +65,9 @@ public class SysLoginController {
         // 权限集合
         Set<String> permissions = permissionService.getMenuPermission(user);
         AjaxResult ajax = AjaxResult.success();
-        ajax.put("user", user);
-        ajax.put("roles", roles);
-        ajax.put("permissions", permissions);
+        ajax.put("user" , user);
+        ajax.put("roles" , roles);
+        ajax.put("permissions" , permissions);
         return ajax;
     }
 
@@ -74,7 +76,7 @@ public class SysLoginController {
      *
      * @return 路由信息
      */
-    @GetMapping("getRouters")
+    @GetMapping("getRouters" )
     public AjaxResult getRouters() {
         Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);

@@ -7,6 +7,7 @@ import cn.miaow.framework.mapper.system.SysPostMapper;
 import cn.miaow.framework.mapper.system.SysUserPostMapper;
 import cn.miaow.framework.service.system.ISysPostService;
 import cn.miaow.framework.util.StringUtils;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,9 @@ import java.util.List;
 
 /**
  * 岗位信息 服务层处理
- *
- * @author ruoyi
  */
 @Service
-public class SysPostServiceImpl implements ISysPostService {
+public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> implements ISysPostService {
     @Autowired
     private SysPostMapper postMapper;
 

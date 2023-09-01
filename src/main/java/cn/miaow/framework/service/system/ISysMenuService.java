@@ -3,6 +3,7 @@ package cn.miaow.framework.service.system;
 import cn.miaow.framework.entity.system.SysMenu;
 import cn.miaow.framework.model.TreeSelect;
 import cn.miaow.framework.model.res.RouterVo;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 import java.util.Set;
@@ -10,9 +11,9 @@ import java.util.Set;
 /**
  * 菜单 业务层
  *
- * @author ruoyi
+ * @author miaow
  */
-public interface ISysMenuService {
+public interface ISysMenuService  extends IService<SysMenu> {
     /**
      * 根据用户查询系统菜单列表
      *

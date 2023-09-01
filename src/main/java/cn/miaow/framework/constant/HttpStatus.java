@@ -5,6 +5,7 @@ package cn.miaow.framework.constant;
  *
  * @author miaow
  */
+@SuppressWarnings("unused")
 public class HttpStatus {
     /**
      * 操作成功

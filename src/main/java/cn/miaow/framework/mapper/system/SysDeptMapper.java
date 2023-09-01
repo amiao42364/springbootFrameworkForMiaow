@@ -1,16 +1,15 @@
 package cn.miaow.framework.mapper.system;
 
 import cn.miaow.framework.entity.system.SysDept;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
  * 部门管理 数据层
- *
- * @author ruoyi
  */
-public interface SysDeptMapper {
+public interface SysDeptMapper  extends BaseMapper<SysDept> {
     /**
      * 查询部门管理数据
      *

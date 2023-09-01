@@ -2,13 +2,14 @@ package cn.miaow.framework.service.system;
 
 import cn.miaow.framework.entity.system.SysUserOnline;
 import cn.miaow.framework.model.LoginUser;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * 在线用户 服务层
  *
- * @author ruoyi
+ * @author miaow
  */
-public interface ISysUserOnlineService {
+public interface ISysUserOnlineService  {
     /**
      * 通过登录地址查询信息
      *

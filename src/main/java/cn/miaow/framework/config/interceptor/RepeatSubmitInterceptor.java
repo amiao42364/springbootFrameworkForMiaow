@@ -4,6 +4,7 @@ import cn.miaow.framework.aspectj.annotation.RepeatSubmit;
 import cn.miaow.framework.model.AjaxResult;
 import cn.miaow.framework.util.ServletUtils;
 import com.alibaba.fastjson2.JSON;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -20,7 +21,9 @@ import java.lang.reflect.Method;
 @Component
 public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(@NonNull HttpServletRequest request,
+                             @NonNull HttpServletResponse response,
+                             @NonNull Object handler) {
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
@@ -32,18 +35,15 @@ public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
                     return false;
                 }
             }
-            return true;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
      * 验证是否重复提交由子类实现具体的防重复提交的规则
      *
-     * @param request
-     * @return
-     * @throws Exception
+     * @param request request
+     * @return boolean
      */
     public abstract boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation);
 }

@@ -2,15 +2,16 @@ package cn.miaow.framework.service.system;
 
 import cn.miaow.framework.entity.system.SysDept;
 import cn.miaow.framework.model.TreeSelect;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
 /**
  * 部门管理 服务层
  *
- * @author ruoyi
+ * @author miaow
  */
-public interface ISysDeptService {
+public interface ISysDeptService  extends IService<SysDept> {
     /**
      * 查询部门管理数据
      *

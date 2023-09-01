@@ -3,7 +3,7 @@ package cn.miaow.framework.util.sign;
 /**
  * Base64工具类
  *
- * @author ruoyi
+ * @author miaow
  */
 public final class Base64 {
     static private final int BASELENGTH = 128;

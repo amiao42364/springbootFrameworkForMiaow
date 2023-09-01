@@ -1,16 +1,15 @@
 package cn.miaow.framework.mapper.system;
 
 import cn.miaow.framework.entity.system.SysMenu;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
  * 菜单表 数据层
- *
- * @author ruoyi
  */
-public interface SysMenuMapper {
+public interface SysMenuMapper  extends BaseMapper<SysMenu> {
     /**
      * 查询系统菜单列表
      *

@@ -5,12 +5,11 @@ import cn.miaow.framework.constant.enums.LimitType;
 import cn.miaow.framework.exception.ServiceException;
 import cn.miaow.framework.util.StringUtils;
 import cn.miaow.framework.util.ip.IpUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -27,8 +26,8 @@ import java.util.List;
  */
 @Aspect
 @Component
+@Slf4j
 public class RateLimiterAspect {
-    private static final Logger log = LoggerFactory.getLogger(RateLimiterAspect.class);
 
     private RedisTemplate<Object, Object> redisTemplate;
 
@@ -44,8 +43,8 @@ public class RateLimiterAspect {
         this.limitScript = limitScript;
     }
 
-    @Before("@annotation(rateLimiter)")
-    public void doBefore(JoinPoint point, RateLimiter rateLimiter) throws Throwable {
+    @Before("@annotation(rateLimiter)" )
+    public void doBefore(JoinPoint point, RateLimiter rateLimiter) {
         int time = rateLimiter.time();
         int count = rateLimiter.count();
 
@@ -54,25 +53,25 @@ public class RateLimiterAspect {
         try {
             Long number = redisTemplate.execute(limitScript, keys, count, time);
             if (StringUtils.isNull(number) || number.intValue() > count) {
-                throw new ServiceException("访问过于频繁，请稍候再试");
+                throw new ServiceException("访问过于频繁，请稍候再试" );
             }
-            log.info("限制请求'{}',当前请求'{}',缓存key'{}'", count, number.intValue(), combineKey);
+            log.info("限制请求'{}',当前请求'{}',缓存key'{}'" , count, number.intValue(), combineKey);
         } catch (ServiceException e) {
             throw e;
         } catch (Exception e) {
-            throw new RuntimeException("服务器限流异常，请稍候再试");
+            throw new RuntimeException("服务器限流异常，请稍候再试" );
         }
     }
 
     public String getCombineKey(RateLimiter rateLimiter, JoinPoint point) {
-        StringBuffer stringBuffer = new StringBuffer(rateLimiter.key());
+        StringBuilder stringBuffer = new StringBuilder(rateLimiter.key());
         if (rateLimiter.limitType() == LimitType.IP) {
-            stringBuffer.append(IpUtils.getIpAddr()).append("-");
+            stringBuffer.append(IpUtils.getIpAddr()).append("-" );
         }
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();
         Class<?> targetClass = method.getDeclaringClass();
-        stringBuffer.append(targetClass.getName()).append("-").append(method.getName());
+        stringBuffer.append(targetClass.getName()).append("-" ).append(method.getName());
         return stringBuffer.toString();
     }
 }

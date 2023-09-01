@@ -2,7 +2,7 @@
 ## 日志配置
 logging:
   level:
-    com.miaow: debug
+    cn.miaow: debug
     org.springframework: warn
 ###############################################################################
 ## 数据源配置

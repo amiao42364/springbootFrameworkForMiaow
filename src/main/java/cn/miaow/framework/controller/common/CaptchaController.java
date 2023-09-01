@@ -9,16 +9,14 @@ import cn.miaow.framework.util.RedisCache;
 import cn.miaow.framework.util.sign.Base64;
 import cn.miaow.framework.util.uuid.IdUtils;
 import com.google.code.kaptcha.Producer;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,6 +25,7 @@ import java.util.concurrent.TimeUnit;
  * @author miaow
  */
 @RestController
+@Slf4j
 public class CaptchaController {
     @Resource(name = "captchaProducer")
     private Producer captchaProducer;
@@ -34,17 +33,20 @@ public class CaptchaController {
     @Resource(name = "captchaProducerMath")
     private Producer captchaProducerMath;
 
-    @Autowired
-    private RedisCache redisCache;
+    private final RedisCache redisCache;
 
-    @Autowired
-    private ISysConfigService configService;
+    private final ISysConfigService configService;
+
+    public CaptchaController(RedisCache redisCache, ISysConfigService configService) {
+        this.redisCache = redisCache;
+        this.configService = configService;
+    }
 
     /**
      * 生成验证码
      */
     @GetMapping("/captchaImage")
-    public AjaxResult getCode(HttpServletResponse response) throws IOException {
+    public AjaxResult getCode() {
         AjaxResult ajax = AjaxResult.success();
         boolean captchaEnabled = configService.selectCaptchaEnabled();
         ajax.put("captchaEnabled", captchaEnabled);
@@ -56,7 +58,7 @@ public class CaptchaController {
         String uuid = IdUtils.simpleUUID();
         String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
 
-        String capStr = null, code = null;
+        String capStr, code = null;
         BufferedImage image = null;
 
         // 生成验证码
@@ -75,9 +77,11 @@ public class CaptchaController {
         // 转换流信息写出
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
         try {
+            assert image != null;
             ImageIO.write(image, "jpg", os);
-        } catch (IOException e) {
-            return AjaxResult.error(e.getMessage());
+        } catch (Exception e) {
+            log.error("验证码模块异常:{}", e.getMessage());
+            return AjaxResult.error("验证码模块异常");
         }
 
         ajax.put("uuid", uuid);

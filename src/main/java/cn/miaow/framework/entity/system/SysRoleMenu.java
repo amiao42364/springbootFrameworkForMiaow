@@ -1,14 +1,19 @@
 package cn.miaow.framework.entity.system;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.io.Serializable;
+
 /**
  * 角色和菜单关联 sys_role_menu
- *
- * @author ruoyi
  */
-public class SysRoleMenu {
+@Data
+@TableName(value = "sys_role_menu" )
+public class SysRoleMenu implements Serializable {
+    private static final long serialVersionUID = -4519667304290671941L;
     /**
      * 角色ID
      */
@@ -19,27 +24,11 @@ public class SysRoleMenu {
      */
     private Long menuId;
 
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    public Long getMenuId() {
-        return menuId;
-    }
-
-    public void setMenuId(Long menuId) {
-        this.menuId = menuId;
-    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("roleId", getRoleId())
-                .append("menuId", getMenuId())
+                .append("roleId" , getRoleId())
+                .append("menuId" , getMenuId())
                 .toString();
     }
 }

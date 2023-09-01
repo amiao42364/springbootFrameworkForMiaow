@@ -15,6 +15,7 @@ target/
 .apt_generated
 .classpath
 .factorypath
+.fastRequest
 .project
 .settings
 .springBeans

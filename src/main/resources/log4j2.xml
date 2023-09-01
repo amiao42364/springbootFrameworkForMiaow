@@ -7,7 +7,7 @@
     <Properties>
         <Property name="app_name">miaow</Property>
         <!-- 日志存放路径 -->
-        <property name="log_base_dir" value="/home/sniffer4dmapper/logs"/>
+        <property name="log_base_dir" value="/home/miaow/logs"/>
         <!-- 日志输出格式设置 -->
         <!--
         %d{yyyy-MM-dd HH:mm:ss} [%level] - %msg%n

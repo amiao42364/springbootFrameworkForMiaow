@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.miaow.framework.mapper.system.SysConfigMapper">
 
-    <resultMap type="SysConfig" id="SysConfigResult">
+    <resultMap type="cn.miaow.framework.entity.system.SysConfig" id="SysConfigResult">
         <id property="configId" column="config_id"/>
         <result property="configName" column="config_name"/>
         <result property="configKey" column="config_key"/>
@@ -42,12 +42,12 @@
         </where>
     </sql>
 
-    <select id="selectConfig" parameterType="SysConfig" resultMap="SysConfigResult">
+    <select id="selectConfig" parameterType="cn.miaow.framework.entity.system.SysConfig" resultMap="SysConfigResult">
         <include refid="selectConfigVo"/>
         <include refid="sqlwhereSearch"/>
     </select>
 
-    <select id="selectConfigList" parameterType="SysConfig" resultMap="SysConfigResult">
+    <select id="selectConfigList" parameterType="cn.miaow.framework.entity.system.SysConfig" resultMap="SysConfigResult">
         <include refid="selectConfigVo"/>
         <where>
             <if test="configName != null and configName != ''">
@@ -78,7 +78,7 @@
         where config_key = #{configKey} limit 1
     </select>
 
-    <insert id="insertConfig" parameterType="SysConfig">
+    <insert id="insertConfig" parameterType="cn.miaow.framework.entity.system.SysConfig">
         insert into sys_config (
         <if test="configName != null and configName != '' ">config_name,</if>
         <if test="configKey != null and configKey != '' ">config_key,</if>
@@ -98,7 +98,7 @@
         )
     </insert>
 
-    <update id="updateConfig" parameterType="SysConfig">
+    <update id="updateConfig" parameterType="cn.miaow.framework.entity.system.SysConfig">
         update sys_config
         <set>
             <if test="configName != null and configName != ''">config_name = #{configName},</if>

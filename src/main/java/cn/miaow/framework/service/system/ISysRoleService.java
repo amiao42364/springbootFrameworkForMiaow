@@ -2,6 +2,7 @@ package cn.miaow.framework.service.system;
 
 import cn.miaow.framework.entity.system.SysRole;
 import cn.miaow.framework.entity.system.SysUserRole;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 import java.util.Set;
@@ -9,9 +10,9 @@ import java.util.Set;
 /**
  * 角色业务层
  *
- * @author ruoyi
+ * @author miaow
  */
-public interface ISysRoleService {
+public interface ISysRoleService extends IService<SysRole> {
     /**
      * 根据条件分页查询角色数据
      *

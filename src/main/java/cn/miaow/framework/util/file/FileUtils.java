@@ -4,6 +4,7 @@ import cn.miaow.framework.config.MiaowConfig;
 import cn.miaow.framework.util.DateUtils;
 import cn.miaow.framework.util.StringUtils;
 import cn.miaow.framework.util.uuid.IdUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -17,8 +18,10 @@ import java.nio.charset.StandardCharsets;
 /**
  * 文件处理工具类
  *
- * @author ruoyi
+ * @author miaow
  */
+@Slf4j
+@SuppressWarnings("unused")
 public class FileUtils {
     public static String FILENAME_PATTERN = "[a-zA-Z0-9_\\-\\|\\.\\u4e00-\\u9fa5]+";
 
@@ -27,7 +30,6 @@ public class FileUtils {
      *
      * @param filePath 文件路径
      * @param os       输出流
-     * @return
      */
     public static void writeBytes(String filePath, OutputStream os) throws IOException {
         FileInputStream fis = null;
@@ -43,7 +45,7 @@ public class FileUtils {
                 os.write(b, 0, length);
             }
         } catch (IOException e) {
-            throw e;
+            log.error("输出文件流异常:{}", e.getMessage());
         } finally {
             IOUtils.close(os);
             IOUtils.close(fis);
@@ -71,7 +73,7 @@ public class FileUtils {
      */
     public static String writeBytes(byte[] data, String uploadDir) throws IOException {
         FileOutputStream fos = null;
-        String pathName = "";
+        String pathName;
         try {
             String extension = getFileExtendName(data);
             pathName = DateUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
@@ -88,7 +90,6 @@ public class FileUtils {
      * 删除文件
      *
      * @param filePath 文件
-     * @return
      */
     public static boolean deleteFile(String filePath) {
         boolean flag = false;
@@ -116,19 +117,13 @@ public class FileUtils {
      * @param resource 需要下载的文件
      * @return true 正常 false 非法
      */
-    public static boolean checkAllowDownload(String resource) {
+    public static boolean checkDenyDownload(String resource) {
         // 禁止目录上跳级别
         if (StringUtils.contains(resource, "..")) {
-            return false;
-        }
-
-        // 检查允许下载的文件规则
-        if (ArrayUtils.contains(MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION, FileTypeUtils.getFileType(resource))) {
             return true;
         }
-
-        // 不在允许下载的文件规则
-        return false;
+        // 检查允许下载的文件规则
+        return !ArrayUtils.contains(MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION, FileTypeUtils.getFileType(resource));
     }
 
     /**
@@ -167,16 +162,15 @@ public class FileUtils {
     public static void setAttachmentResponseHeader(HttpServletResponse response, String realFileName) throws UnsupportedEncodingException {
         String percentEncodedFileName = percentEncode(realFileName);
 
-        StringBuilder contentDispositionValue = new StringBuilder();
-        contentDispositionValue.append("attachment; filename=")
-                .append(percentEncodedFileName)
-                .append(";")
-                .append("filename*=")
-                .append("utf-8''")
-                .append(percentEncodedFileName);
+        String contentDispositionValue = "attachment; filename=" +
+                percentEncodedFileName +
+                ";" +
+                "filename*=" +
+                "utf-8''" +
+                percentEncodedFileName;
 
         response.addHeader("Access-Control-Expose-Headers", "Content-Disposition,download-filename");
-        response.setHeader("Content-disposition", contentDispositionValue.toString());
+        response.setHeader("Content-disposition", contentDispositionValue);
         response.setHeader("download-filename", percentEncodedFileName);
     }
 
@@ -213,7 +207,7 @@ public class FileUtils {
     }
 
     /**
-     * 获取文件名称 /profile/upload/2022/04/16/ruoyi.png -- ruoyi.png
+     * 获取文件名称
      *
      * @param fileName 路径名称
      * @return 没有文件路径的名称
@@ -229,8 +223,6 @@ public class FileUtils {
     }
 
     /**
-     * 获取不带后缀文件名称 /profile/upload/2022/04/16/ruoyi.png -- ruoyi
-     *
      * @param fileName 路径名称
      * @return 没有文件路径和后缀的名称
      */
@@ -238,7 +230,6 @@ public class FileUtils {
         if (fileName == null) {
             return null;
         }
-        String baseName = FilenameUtils.getBaseName(fileName);
-        return baseName;
+        return FilenameUtils.getBaseName(fileName);
     }
 }

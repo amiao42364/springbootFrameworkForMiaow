@@ -2,15 +2,16 @@ package cn.miaow.framework.service.system;
 
 
 import cn.miaow.framework.entity.system.SysConfig;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
 /**
  * 参数配置 服务层
  *
- * @author ruoyi
+ * @author miaow
  */
-public interface ISysConfigService {
+public interface ISysConfigService  extends IService<SysConfig> {
     /**
      * 查询参数配置信息
      *

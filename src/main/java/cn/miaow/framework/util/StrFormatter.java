@@ -3,7 +3,7 @@ package cn.miaow.framework.util;
 /**
  * 字符串格式化
  *
- * @author ruoyi
+ * @author miaow
  */
 public class StrFormatter {
     public static final String EMPTY_JSON = "{}";

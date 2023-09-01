@@ -1,15 +1,14 @@
 package cn.miaow.framework.mapper.system;
 
 import cn.miaow.framework.entity.system.SysRoleMenu;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
 /**
  * 角色与菜单关联表 数据层
- *
- * @author ruoyi
  */
-public interface SysRoleMenuMapper {
+public interface SysRoleMenuMapper  extends BaseMapper<SysRoleMenu> {
     /**
      * 查询菜单使用数量
      *
