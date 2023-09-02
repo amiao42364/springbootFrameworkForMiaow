@@ -73,7 +73,7 @@ public class SysConfigController extends BaseController {
     @Log(title = "参数管理" , businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysConfig config) {
-        if (!configService.checkConfigKeyUnique(config)) {
+        if (configService.checkConfigKeyNotUnique(config)) {
             return error("新增参数'" + config.getConfigName() + "'失败，参数键名已存在" );
         }
         config.setCreateBy(getUsername());
@@ -87,7 +87,7 @@ public class SysConfigController extends BaseController {
     @Log(title = "参数管理" , businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysConfig config) {
-        if (!configService.checkConfigKeyUnique(config)) {
+        if (configService.checkConfigKeyNotUnique(config)) {
             return error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在" );
         }
         config.setUpdateBy(getUsername());

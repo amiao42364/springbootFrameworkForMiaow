@@ -4,7 +4,6 @@ import cn.miaow.framework.entity.system.SysOperationLog;
 import cn.miaow.framework.mapper.system.SysOperationLogMapper;
 import cn.miaow.framework.service.system.ISysOperationLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,17 +14,20 @@ import java.util.List;
 @Service
 public class SysOperationLogServiceImpl extends ServiceImpl<SysOperationLogMapper, SysOperationLog> implements ISysOperationLogService {
 
-    @Autowired
-    private SysOperationLogMapper operLogMapper;
+    private final SysOperationLogMapper operationLogMapper;
+
+    public SysOperationLogServiceImpl(SysOperationLogMapper operationLogMapper) {
+        this.operationLogMapper = operationLogMapper;
+    }
 
     /**
      * 新增操作日志
      *
-     * @param operLog 操作日志对象
+     * @param operationLog 操作日志对象
      */
     @Override
-    public void insertOperlog(SysOperationLog operLog) {
-        operLogMapper.insertOperationLog(operLog);
+    public void insertOperationLog(SysOperationLog operationLog) {
+        operationLogMapper.insertOperationLog(operationLog);
     }
 
     /**
@@ -35,37 +37,37 @@ public class SysOperationLogServiceImpl extends ServiceImpl<SysOperationLogMappe
      * @return 操作日志集合
      */
     @Override
-    public List<SysOperationLog> selectOperLogList(SysOperationLog operationLog) {
-        return operLogMapper.selectOperationLogList(operationLog);
+    public List<SysOperationLog> selectOperationLogList(SysOperationLog operationLog) {
+        return operationLogMapper.selectOperationLogList(operationLog);
     }
 
     /**
      * 批量删除系统操作日志
      *
-     * @param operIds 需要删除的操作日志ID
+     * @param operationIds 需要删除的操作日志ID
      * @return 结果
      */
     @Override
-    public int deleteOperLogByIds(Long[] operIds) {
-        return operLogMapper.deleteOperationLogByIds(operIds);
+    public int deleteOperationLogByIds(Long[] operationIds) {
+        return operationLogMapper.deleteOperationLogByIds(operationIds);
     }
 
     /**
      * 查询操作日志详细
      *
-     * @param operId 操作ID
+     * @param operationId 操作ID
      * @return 操作日志对象
      */
     @Override
-    public SysOperationLog selectOperLogById(Long operId) {
-        return operLogMapper.selectOperationLogById(operId);
+    public SysOperationLog selectOperationLogById(Long operationId) {
+        return operationLogMapper.selectOperationLogById(operationId);
     }
 
     /**
      * 清空操作日志
      */
     @Override
-    public void cleanOperLog() {
-        operLogMapper.cleanOperationLog();
+    public void cleanOperationLog() {
+        operationLogMapper.cleanOperationLog();
     }
 }

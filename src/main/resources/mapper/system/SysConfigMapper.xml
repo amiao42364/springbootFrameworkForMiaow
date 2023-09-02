@@ -31,7 +31,7 @@
     </sql>
 
     <!-- 查询条件 -->
-    <sql id="sqlwhereSearch">
+    <sql id="sqlWhereSearch">
         <where>
             <if test="configId !=null">
                 and config_id = #{configId}
@@ -44,7 +44,7 @@
 
     <select id="selectConfig" parameterType="cn.miaow.framework.entity.system.SysConfig" resultMap="SysConfigResult">
         <include refid="selectConfigVo"/>
-        <include refid="sqlwhereSearch"/>
+        <include refid="sqlWhereSearch"/>
     </select>
 
     <select id="selectConfigList" parameterType="cn.miaow.framework.entity.system.SysConfig" resultMap="SysConfigResult">

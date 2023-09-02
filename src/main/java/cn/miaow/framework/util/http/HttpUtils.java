@@ -68,7 +68,7 @@ public class HttpUtils {
             while ((line = in.readLine()) != null) {
                 result.append(line);
             }
-            log.info("recv - {}", result);
+            log.info("result - {}", result);
         } catch (ConnectException e) {
             log.error("调用HttpUtils.sendGet ConnectException, url=" + url + ",param=" + param, e);
         } catch (SocketTimeoutException e) {
@@ -111,7 +111,7 @@ public class HttpUtils {
             while ((line = in.readLine()) != null) {
                 result.append(line);
             }
-            log.info("recv - {}", result);
+            log.info("result - {}", result);
         } catch (ConnectException e) {
             log.error("调用HttpUtils.sendPost ConnectException, url=" + url + ",param=" + param, e);
         } catch (SocketTimeoutException e) {
@@ -155,28 +155,16 @@ public class HttpUtils {
             log.info("sendSSLPost - {}", urlNameString);
             SSLContext sc = SSLContext.getInstance("SSL");
             sc.init(null, new TrustManager[]{new TrustAnyTrustManager()}, new java.security.SecureRandom());
-            URL console = new URL(urlNameString);
-            HttpsURLConnection conn = (HttpsURLConnection) console.openConnection();
-            conn.setRequestProperty("accept", "*/*");
-            conn.setRequestProperty("connection", "Keep-Alive");
-            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-            conn.setRequestProperty("Accept-Charset", "utf-8");
-            conn.setRequestProperty("contentType", "utf-8");
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-
-            conn.setSSLSocketFactory(sc.getSocketFactory());
-            conn.setHostnameVerifier(new TrustAnyHostnameVerifier());
-            conn.connect();
+            HttpsURLConnection conn = getHttpsURLConnection(urlNameString, sc);
             InputStream is = conn.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String ret = "";
+            String ret;
             while ((ret = br.readLine()) != null) {
-                if (ret != null && !"".equals(ret.trim())) {
+                if (!ret.trim().isEmpty()) {
                     result.append(new String(ret.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
                 }
             }
-            log.info("recv - {}", result);
+            log.info("result - {}", result);
             conn.disconnect();
             br.close();
         } catch (ConnectException e) {
@@ -189,6 +177,23 @@ public class HttpUtils {
             log.error("调用HttpsUtil.sendSSLPost Exception, url=" + url + ",param=" + param, e);
         }
         return result.toString();
+    }
+
+    private static HttpsURLConnection getHttpsURLConnection(String urlNameString, SSLContext sc) throws IOException {
+        URL console = new URL(urlNameString);
+        HttpsURLConnection conn = (HttpsURLConnection) console.openConnection();
+        conn.setRequestProperty("accept", "*/*");
+        conn.setRequestProperty("connection", "Keep-Alive");
+        conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+        conn.setRequestProperty("contentType", "utf-8");
+        conn.setRequestProperty("Accept-Charset", "utf-8");
+        conn.setDoOutput(true);
+        conn.setDoInput(true);
+
+        conn.setSSLSocketFactory(sc.getSocketFactory());
+        conn.setHostnameVerifier(new TrustAnyHostnameVerifier());
+        conn.connect();
+        return conn;
     }
 
     private static class TrustAnyTrustManager implements X509TrustManager {

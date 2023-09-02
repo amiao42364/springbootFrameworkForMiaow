@@ -3,6 +3,7 @@ package cn.miaow.framework.aspectj;
 import cn.miaow.framework.aspectj.annotation.DataSource;
 import cn.miaow.framework.config.datasource.DynamicDataSourceContextHolder;
 import cn.miaow.framework.util.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,10 +23,11 @@ import java.util.Objects;
 @Aspect
 @Order(1)
 @Component
+@Slf4j
 public class DataSourceAspect {
     @Pointcut("@annotation(cn.miaow.framework.aspectj.annotation.DataSource)"
             + "|| @within(cn.miaow.framework.aspectj.annotation.DataSource)" )
-    @SuppressWarnings("unused" )
+    @SuppressWarnings("all" )
     public void dsPointCut() {
 
     }

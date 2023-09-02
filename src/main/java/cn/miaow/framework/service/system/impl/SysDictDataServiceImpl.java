@@ -5,7 +5,6 @@ import cn.miaow.framework.mapper.system.SysDictDataMapper;
 import cn.miaow.framework.service.system.ISysDictDataService;
 import cn.miaow.framework.util.DictUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +14,11 @@ import java.util.List;
  */
 @Service
 public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDictData> implements ISysDictDataService {
-    @Autowired
-    private SysDictDataMapper dictDataMapper;
+    private final SysDictDataMapper dictDataMapper;
+
+    public SysDictDataServiceImpl(SysDictDataMapper dictDataMapper) {
+        this.dictDataMapper = dictDataMapper;
+    }
 
     /**
      * 根据条件分页查询字典数据
@@ -62,8 +64,8 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
         for (Long dictCode : dictCodes) {
             SysDictData data = selectDictDataById(dictCode);
             dictDataMapper.deleteDictDataById(dictCode);
-            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(data.getDictType());
-            DictUtils.setDictCache(data.getDictType(), dictDatas);
+            List<SysDictData> dictData = dictDataMapper.selectDictDataByType(data.getDictType());
+            DictUtils.setDictCache(data.getDictType(), dictData);
         }
     }
 
@@ -77,8 +79,8 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
     public int insertDictData(SysDictData data) {
         int row = dictDataMapper.insertDictData(data);
         if (row > 0) {
-            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(data.getDictType());
-            DictUtils.setDictCache(data.getDictType(), dictDatas);
+            List<SysDictData> dictData = dictDataMapper.selectDictDataByType(data.getDictType());
+            DictUtils.setDictCache(data.getDictType(), dictData);
         }
         return row;
     }
@@ -93,8 +95,8 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
     public int updateDictData(SysDictData data) {
         int row = dictDataMapper.updateDictData(data);
         if (row > 0) {
-            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(data.getDictType());
-            DictUtils.setDictCache(data.getDictType(), dictDatas);
+            List<SysDictData> dictData = dictDataMapper.selectDictDataByType(data.getDictType());
+            DictUtils.setDictCache(data.getDictType(), dictData);
         }
         return row;
     }

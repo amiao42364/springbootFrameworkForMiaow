@@ -10,40 +10,41 @@ import java.util.List;
  *
  * @author miaow
  */
-public interface ISysOperationLogService  extends IService<SysOperationLog> {
+public interface ISysOperationLogService extends IService<SysOperationLog> {
     /**
      * 新增操作日志
      *
-     * @param operLog 操作日志对象
+     * @param operationLog 操作日志对象
      */
-    public void insertOperlog(SysOperationLog operLog);
+    void insertOperationLog(SysOperationLog operationLog);
 
     /**
      * 查询系统操作日志集合
      *
-     * @param operLog 操作日志对象
+     * @param operationLog 操作日志对象
      * @return 操作日志集合
      */
-    public List<SysOperationLog> selectOperLogList(SysOperationLog operLog);
+    List<SysOperationLog> selectOperationLogList(SysOperationLog operationLog);
 
     /**
      * 批量删除系统操作日志
      *
-     * @param operIds 需要删除的操作日志ID
+     * @param operationIds 需要删除的操作日志ID
      * @return 结果
      */
-    public int deleteOperLogByIds(Long[] operIds);
+    int deleteOperationLogByIds(Long[] operationIds);
 
     /**
      * 查询操作日志详细
      *
-     * @param operId 操作ID
+     * @param operationId 操作ID
      * @return 操作日志对象
      */
-    public SysOperationLog selectOperLogById(Long operId);
+    @SuppressWarnings("unused" )
+    SysOperationLog selectOperationLogById(Long operationId);
 
     /**
      * 清空操作日志
      */
-    public void cleanOperLog();
+    void cleanOperationLog();
 }

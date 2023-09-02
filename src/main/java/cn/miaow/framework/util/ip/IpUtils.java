@@ -19,7 +19,7 @@ public class IpUtils {
     // 匹配 ip
     public final static String REGX_IP = "((" + REGX_0_255 + "\\.){3}" + REGX_0_255 + ")";
     // 匹配网段
-    public final static String REGX_IP_SEG = "(" + REGX_IP + "\\-" + REGX_IP + ")";
+    public final static String REGX_IP_SEG = "(" + REGX_IP + "-" + REGX_IP + ")";
     public final static String REGX_IP_WILDCARD = "(((\\*\\.){3}\\*)|(" + REGX_0_255 + "(\\.\\*){3})|(" + REGX_0_255 + "\\." + REGX_0_255 + ")(\\.\\*){2}" + "|((" + REGX_0_255 + "\\.){3}\\*))";
 
     /**
@@ -282,16 +282,16 @@ public class IpUtils {
     /**
      * 判断ip是否在指定网段中
      */
-    public static boolean ipIsInNetNoCheck(String iparea, String ip) {
-        int idx = iparea.indexOf('-');
-        String[] sips = iparea.substring(0, idx).split("\\.");
-        String[] sipe = iparea.substring(idx + 1).split("\\.");
-        String[] sipt = ip.split("\\.");
+    public static boolean ipIsInNetNoCheck(String ipArea, String ip) {
+        int idx = ipArea.indexOf('-');
+        String[] sipS = ipArea.substring(0, idx).split("\\.");
+        String[] sipE = ipArea.substring(idx + 1).split("\\.");
+        String[] sipT = ip.split("\\.");
         long ips = 0L, ipe = 0L, ipt = 0L;
         for (int i = 0; i < 4; ++i) {
-            ips = ips << 8 | Integer.parseInt(sips[i]);
-            ipe = ipe << 8 | Integer.parseInt(sipe[i]);
-            ipt = ipt << 8 | Integer.parseInt(sipt[i]);
+            ips = ips << 8 | Integer.parseInt(sipS[i]);
+            ipe = ipe << 8 | Integer.parseInt(sipE[i]);
+            ipt = ipt << 8 | Integer.parseInt(sipT[i]);
         }
         if (ips > ipe) {
             long t = ips;

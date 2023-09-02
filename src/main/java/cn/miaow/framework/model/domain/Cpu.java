@@ -1,16 +1,19 @@
 package cn.miaow.framework.model.domain;
 
 import cn.miaow.framework.util.Arith;
+import lombok.Getter;
 
 /**
  * CPU相关信息
  *
  * @author miaow
  */
+@SuppressWarnings("unused" )
 public class Cpu {
     /**
      * 核心数
      */
+    @Getter
     private int cpuNum;
 
     /**
@@ -37,10 +40,6 @@ public class Cpu {
      * CPU当前空闲率
      */
     private double free;
-
-    public int getCpuNum() {
-        return cpuNum;
-    }
 
     public void setCpuNum(int cpuNum) {
         this.cpuNum = cpuNum;

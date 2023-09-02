@@ -4,7 +4,6 @@ import cn.miaow.framework.entity.system.SysNotice;
 import cn.miaow.framework.mapper.system.SysNoticeMapper;
 import cn.miaow.framework.service.system.ISysNoticeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +13,11 @@ import java.util.List;
  */
 @Service
 public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice> implements ISysNoticeService {
-    @Autowired
-    private SysNoticeMapper noticeMapper;
+    private final SysNoticeMapper noticeMapper;
+
+    public SysNoticeServiceImpl(SysNoticeMapper noticeMapper) {
+        this.noticeMapper = noticeMapper;
+    }
 
     /**
      * 查询公告信息

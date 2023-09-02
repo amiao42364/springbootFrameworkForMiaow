@@ -2,6 +2,7 @@ package cn.miaow.framework.model.domain;
 
 import cn.miaow.framework.util.Arith;
 import cn.miaow.framework.util.DateUtils;
+import lombok.Getter;
 
 import java.lang.management.ManagementFactory;
 
@@ -10,6 +11,7 @@ import java.lang.management.ManagementFactory;
  *
  * @author miaow
  */
+@SuppressWarnings("unused" )
 public class Jvm {
     /**
      * 当前JVM占用的内存总数(M)
@@ -29,11 +31,13 @@ public class Jvm {
     /**
      * JDK版本
      */
+    @Getter
     private String version;
 
     /**
      * JDK路径
      */
+    @Getter
     private String home;
 
     public double getTotal() {
@@ -75,16 +79,8 @@ public class Jvm {
         return ManagementFactory.getRuntimeMXBean().getVmName();
     }
 
-    public String getVersion() {
-        return version;
-    }
-
     public void setVersion(String version) {
         this.version = version;
-    }
-
-    public String getHome() {
-        return home;
     }
 
     public void setHome(String home) {

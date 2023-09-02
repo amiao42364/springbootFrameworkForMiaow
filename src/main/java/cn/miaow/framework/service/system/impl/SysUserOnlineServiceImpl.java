@@ -1,19 +1,16 @@
 package cn.miaow.framework.service.system.impl;
 
-import cn.miaow.framework.entity.system.SysUser;
 import cn.miaow.framework.entity.system.SysUserOnline;
-import cn.miaow.framework.mapper.system.SysUserMapper;
 import cn.miaow.framework.model.LoginUser;
 import cn.miaow.framework.service.system.ISysUserOnlineService;
 import cn.miaow.framework.util.StringUtils;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
  * 在线用户 服务层处理
  */
 @Service
-public class SysUserOnlineServiceImpl  implements ISysUserOnlineService {
+public class SysUserOnlineServiceImpl implements ISysUserOnlineService {
     /**
      * 通过登录地址查询信息
      *

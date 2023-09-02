@@ -1,8 +1,11 @@
 package cn.miaow.framework.exception;
 
+import lombok.Getter;
+
 /**
  * 全局异常
  */
+@SuppressWarnings("unused" )
 public class GlobalException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
@@ -13,9 +16,8 @@ public class GlobalException extends RuntimeException {
 
     /**
      * 错误明细，内部调试错误
-     * <p>
-     * 和 {@link CommonResult#getDetailMessage()} 一致的设计
      */
+    @Getter
     private String detailMessage;
 
     /**
@@ -26,10 +28,6 @@ public class GlobalException extends RuntimeException {
 
     public GlobalException(String message) {
         this.message = message;
-    }
-
-    public String getDetailMessage() {
-        return detailMessage;
     }
 
     public GlobalException setDetailMessage(String detailMessage) {

@@ -1,6 +1,7 @@
 package cn.miaow.framework.util;
 
 import cn.miaow.framework.constant.Constants;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -22,6 +23,8 @@ import java.util.Map;
  *
  * @author miaow
  */
+@Slf4j
+@SuppressWarnings("unused" )
 public class ServletUtils {
     /**
      * 获取String参数
@@ -85,7 +88,7 @@ public class ServletUtils {
     public static Map<String, String> getParamMap(ServletRequest request) {
         Map<String, String> params = new HashMap<>();
         for (Map.Entry<String, String[]> entry : getParams(request).entrySet()) {
-            params.put(entry.getKey(), StringUtils.join(entry.getValue(), ","));
+            params.put(entry.getKey(), StringUtils.join(entry.getValue(), "," ));
         }
         return params;
     }
@@ -125,37 +128,37 @@ public class ServletUtils {
     public static void renderString(HttpServletResponse response, String string) {
         try {
             response.setStatus(200);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/json" );
+            response.setCharacterEncoding("utf-8" );
             response.getWriter().print(string);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("渲染对象异常:{}" , e.getMessage());
         }
     }
 
     /**
      * 是否是Ajax异步请求
      *
-     * @param request
+     * @param request request
      */
     public static boolean isAjaxRequest(HttpServletRequest request) {
-        String accept = request.getHeader("accept");
-        if (accept != null && accept.contains("application/json")) {
+        String accept = request.getHeader("accept" );
+        if (accept != null && accept.contains("application/json" )) {
             return true;
         }
 
-        String xRequestedWith = request.getHeader("X-Requested-With");
-        if (xRequestedWith != null && xRequestedWith.contains("XMLHttpRequest")) {
+        String xRequestedWith = request.getHeader("X-Requested-With" );
+        if (xRequestedWith != null && xRequestedWith.contains("XMLHttpRequest" )) {
             return true;
         }
 
         String uri = request.getRequestURI();
-        if (StringUtils.inStringIgnoreCase(uri, ".json", ".xml")) {
+        if (StringUtils.inStringIgnoreCase(uri, ".json" , ".xml" )) {
             return true;
         }
 
-        String ajax = request.getParameter("__ajax");
-        return StringUtils.inStringIgnoreCase(ajax, "json", "xml");
+        String ajax = request.getParameter("__ajax" );
+        return StringUtils.inStringIgnoreCase(ajax, "json" , "xml" );
     }
 
     /**

@@ -3,6 +3,7 @@ package cn.miaow.framework.model.domain;
 
 import cn.miaow.framework.util.Arith;
 import cn.miaow.framework.util.ip.IpUtils;
+import lombok.Getter;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.GlobalMemory;
@@ -12,7 +13,6 @@ import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
 import oshi.util.Util;
 
-import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -22,8 +22,10 @@ import java.util.Properties;
  *
  * @author miaow
  */
+@Getter
+@SuppressWarnings("unused" )
 public class Server {
-    private static final int OSHI_WAIT_SECOND = 1000;
+    private static final int OS_WAIT_SECOND = 1000;
 
     /**
      * CPU相关信息
@@ -48,42 +50,22 @@ public class Server {
     /**
      * 磁盘相关信息
      */
-    private List<SysFile> sysFiles = new LinkedList<SysFile>();
-
-    public Cpu getCpu() {
-        return cpu;
-    }
+    private List<SysFile> sysFiles = new LinkedList<>();
 
     public void setCpu(Cpu cpu) {
         this.cpu = cpu;
-    }
-
-    public Mem getMem() {
-        return mem;
     }
 
     public void setMem(Mem mem) {
         this.mem = mem;
     }
 
-    public Jvm getJvm() {
-        return jvm;
-    }
-
     public void setJvm(Jvm jvm) {
         this.jvm = jvm;
     }
 
-    public Sys getSys() {
-        return sys;
-    }
-
     public void setSys(Sys sys) {
         this.sys = sys;
-    }
-
-    public List<SysFile> getSysFiles() {
-        return sysFiles;
     }
 
     public void setSysFiles(List<SysFile> sysFiles) {
@@ -112,7 +94,7 @@ public class Server {
         }
     }
 
-    public void copyTo() throws Exception {
+    public void copyTo() {
         SystemInfo si = new SystemInfo();
         HardwareAbstractionLayer hal = si.getHardware();
 
@@ -133,22 +115,22 @@ public class Server {
     private void setCpuInfo(CentralProcessor processor) {
         // CPU信息
         long[] prevTicks = processor.getSystemCpuLoadTicks();
-        Util.sleep(OSHI_WAIT_SECOND);
+        Util.sleep(OS_WAIT_SECOND);
         long[] ticks = processor.getSystemCpuLoadTicks();
         long nice = ticks[CentralProcessor.TickType.NICE.getIndex()] - prevTicks[CentralProcessor.TickType.NICE.getIndex()];
         long irq = ticks[CentralProcessor.TickType.IRQ.getIndex()] - prevTicks[CentralProcessor.TickType.IRQ.getIndex()];
-        long softirq = ticks[CentralProcessor.TickType.SOFTIRQ.getIndex()] - prevTicks[CentralProcessor.TickType.SOFTIRQ.getIndex()];
+        long softIrq = ticks[CentralProcessor.TickType.SOFTIRQ.getIndex()] - prevTicks[CentralProcessor.TickType.SOFTIRQ.getIndex()];
         long steal = ticks[CentralProcessor.TickType.STEAL.getIndex()] - prevTicks[CentralProcessor.TickType.STEAL.getIndex()];
         long cSys = ticks[CentralProcessor.TickType.SYSTEM.getIndex()] - prevTicks[CentralProcessor.TickType.SYSTEM.getIndex()];
         long user = ticks[CentralProcessor.TickType.USER.getIndex()] - prevTicks[CentralProcessor.TickType.USER.getIndex()];
-        long iowait = ticks[CentralProcessor.TickType.IOWAIT.getIndex()] - prevTicks[CentralProcessor.TickType.IOWAIT.getIndex()];
+        long ioWait = ticks[CentralProcessor.TickType.IOWAIT.getIndex()] - prevTicks[CentralProcessor.TickType.IOWAIT.getIndex()];
         long idle = ticks[CentralProcessor.TickType.IDLE.getIndex()] - prevTicks[CentralProcessor.TickType.IDLE.getIndex()];
-        long totalCpu = user + nice + cSys + idle + iowait + irq + softirq + steal;
+        long totalCpu = user + nice + cSys + idle + ioWait + irq + softIrq + steal;
         cpu.setCpuNum(processor.getLogicalProcessorCount());
         cpu.setTotal(totalCpu);
         cpu.setSys(cSys);
         cpu.setUsed(user);
-        cpu.setWait(iowait);
+        cpu.setWait(ioWait);
         cpu.setFree(idle);
     }
 
@@ -168,21 +150,21 @@ public class Server {
         Properties props = System.getProperties();
         sys.setComputerName(IpUtils.getHostName());
         sys.setComputerIp(IpUtils.getHostIp());
-        sys.setOsName(props.getProperty("os.name"));
-        sys.setOsArch(props.getProperty("os.arch"));
-        sys.setUserDir(props.getProperty("user.dir"));
+        sys.setOsName(props.getProperty("os.name" ));
+        sys.setOsArch(props.getProperty("os.arch" ));
+        sys.setUserDir(props.getProperty("user.dir" ));
     }
 
     /**
      * 设置Java虚拟机
      */
-    private void setJvmInfo() throws UnknownHostException {
+    private void setJvmInfo() {
         Properties props = System.getProperties();
         jvm.setTotal(Runtime.getRuntime().totalMemory());
         jvm.setMax(Runtime.getRuntime().maxMemory());
         jvm.setFree(Runtime.getRuntime().freeMemory());
-        jvm.setVersion(props.getProperty("java.version"));
-        jvm.setHome(props.getProperty("java.home"));
+        jvm.setVersion(props.getProperty("java.version" ));
+        jvm.setHome(props.getProperty("java.home" ));
     }
 
     /**
@@ -196,15 +178,15 @@ public class Server {
         long mb = kb * 1024;
         long gb = mb * 1024;
         if (size >= gb) {
-            return String.format("%.1f GB", (float) size / gb);
+            return String.format("%.1f GB" , (float) size / gb);
         } else if (size >= mb) {
             float f = (float) size / mb;
-            return String.format(f > 100 ? "%.0f MB" : "%.1f MB", f);
+            return String.format(f > 100 ? "%.0f MB" : "%.1f MB" , f);
         } else if (size >= kb) {
             float f = (float) size / kb;
-            return String.format(f > 100 ? "%.0f KB" : "%.1f KB", f);
+            return String.format(f > 100 ? "%.0f KB" : "%.1f KB" , f);
         } else {
-            return String.format("%d B", size);
+            return String.format("%d B" , size);
         }
     }
 }

@@ -82,9 +82,9 @@ public class SysRoleController extends BaseController {
     @Log(title = "角色管理" , businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysRole role) {
-        if (!roleService.checkRoleNameUnique(role)) {
+        if (roleService.checkRoleNameNotUnique(role)) {
             return error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在" );
-        } else if (!roleService.checkRoleKeyUnique(role)) {
+        } else if (roleService.checkRoleKeyNotUnique(role)) {
             return error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在" );
         }
         role.setCreateBy(getUsername());
@@ -101,9 +101,9 @@ public class SysRoleController extends BaseController {
     public AjaxResult edit(@Validated @RequestBody SysRole role) {
         roleService.checkRoleAllowed(role);
         roleService.checkRoleDataScope(role.getRoleId());
-        if (!roleService.checkRoleNameUnique(role)) {
+        if (roleService.checkRoleNameNotUnique(role)) {
             return error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在" );
-        } else if (!roleService.checkRoleKeyUnique(role)) {
+        } else if (roleService.checkRoleKeyNotUnique(role)) {
             return error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在" );
         }
         role.setUpdateBy(getUsername());

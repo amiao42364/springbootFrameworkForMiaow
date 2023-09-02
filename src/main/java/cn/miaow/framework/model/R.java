@@ -1,12 +1,15 @@
 package cn.miaow.framework.model;
 
 import cn.miaow.framework.constant.HttpStatus;
+import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * 响应信息主体
  */
+@Data
+@SuppressWarnings("unused" )
 public class R<T> implements Serializable {
     /**
      * 成功
@@ -24,11 +27,11 @@ public class R<T> implements Serializable {
     private T data;
 
     public static <T> R<T> ok() {
-        return restResult(null, SUCCESS, "操作成功");
+        return restResult(null, SUCCESS, "操作成功" );
     }
 
     public static <T> R<T> ok(T data) {
-        return restResult(data, SUCCESS, "操作成功");
+        return restResult(data, SUCCESS, "操作成功" );
     }
 
     public static <T> R<T> ok(T data, String msg) {
@@ -36,7 +39,7 @@ public class R<T> implements Serializable {
     }
 
     public static <T> R<T> fail() {
-        return restResult(null, FAIL, "操作失败");
+        return restResult(null, FAIL, "操作失败" );
     }
 
     public static <T> R<T> fail(String msg) {
@@ -44,7 +47,7 @@ public class R<T> implements Serializable {
     }
 
     public static <T> R<T> fail(T data) {
-        return restResult(data, FAIL, "操作失败");
+        return restResult(data, FAIL, "操作失败" );
     }
 
     public static <T> R<T> fail(T data, String msg) {
@@ -69,29 +72,5 @@ public class R<T> implements Serializable {
 
     public static <T> Boolean isSuccess(R<T> ret) {
         return R.SUCCESS == ret.getCode();
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
     }
 }

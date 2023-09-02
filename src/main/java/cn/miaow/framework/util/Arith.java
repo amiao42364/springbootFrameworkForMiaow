@@ -8,6 +8,7 @@ import java.math.RoundingMode;
  *
  * @author miaow
  */
+@SuppressWarnings("unused")
 public class Arith {
 
     /**

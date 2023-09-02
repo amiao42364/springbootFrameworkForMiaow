@@ -2,14 +2,13 @@ package cn.miaow.framework.service.system;
 
 import cn.miaow.framework.entity.system.SysUserOnline;
 import cn.miaow.framework.model.LoginUser;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * 在线用户 服务层
  *
  * @author miaow
  */
-public interface ISysUserOnlineService  {
+public interface ISysUserOnlineService {
     /**
      * 通过登录地址查询信息
      *
@@ -17,7 +16,7 @@ public interface ISysUserOnlineService  {
      * @param user   用户信息
      * @return 在线用户信息
      */
-    public SysUserOnline selectOnlineByIpaddr(String ipaddr, LoginUser user);
+    SysUserOnline selectOnlineByIpaddr(String ipaddr, LoginUser user);
 
     /**
      * 通过用户名称查询信息
@@ -26,7 +25,7 @@ public interface ISysUserOnlineService  {
      * @param user     用户信息
      * @return 在线用户信息
      */
-    public SysUserOnline selectOnlineByUserName(String userName, LoginUser user);
+    SysUserOnline selectOnlineByUserName(String userName, LoginUser user);
 
     /**
      * 通过登录地址/用户名称查询信息
@@ -36,7 +35,7 @@ public interface ISysUserOnlineService  {
      * @param user     用户信息
      * @return 在线用户信息
      */
-    public SysUserOnline selectOnlineByInfo(String ipaddr, String userName, LoginUser user);
+    SysUserOnline selectOnlineByInfo(String ipaddr, String userName, LoginUser user);
 
     /**
      * 设置在线用户信息
@@ -44,5 +43,5 @@ public interface ISysUserOnlineService  {
      * @param user 用户信息
      * @return 在线用户
      */
-    public SysUserOnline loginUserToUserOnline(LoginUser user);
+    SysUserOnline loginUserToUserOnline(LoginUser user);
 }

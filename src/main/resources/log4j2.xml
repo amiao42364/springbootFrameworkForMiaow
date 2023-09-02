@@ -22,7 +22,6 @@
           Thread: %thread
           Exception: %ex
           xException: %xEx
-          nopException: %nopex
           rException: %rEx
           Marker: %marker
           newline:%n

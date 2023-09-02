@@ -8,6 +8,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.poi.ss.usermodel.DateUtil;
 
 import java.lang.reflect.*;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -51,7 +52,7 @@ public class ReflectUtils {
                 object = invokeMethod(object, getterMethodName, new Class[]{}, new Object[]{});
             } else {
                 String setterMethodName = SETTER_PREFIX + StringUtils.capitalize(names[i]);
-                invokeMethodByName(object, setterMethodName, new Object[]{value});
+                Object o = invokeMethodByName(object, setterMethodName, new Object[]{value});
             }
         }
     }
@@ -111,7 +112,7 @@ public class ReflectUtils {
         try {
             return (E) method.invoke(obj, args);
         } catch (Exception e) {
-            String msg = "method: " + method + ", obj: " + obj + ", args: " + args + "";
+            String msg = "method: " + method + ", obj: " + obj + ", args: " + Arrays.toString(args);
             throw convertReflectionExceptionToUnchecked(msg, e);
         }
     }
@@ -160,7 +161,7 @@ public class ReflectUtils {
             }
             return (E) method.invoke(obj, args);
         } catch (Exception e) {
-            String msg = "method: " + method + ", obj: " + obj + ", args: " + args + "";
+            String msg = "method: " + method + ", obj: " + obj + ", args: " + Arrays.toString(args);
             throw convertReflectionExceptionToUnchecked(msg, e);
         }
     }
@@ -180,8 +181,7 @@ public class ReflectUtils {
                 Field field = superClass.getDeclaredField(fieldName);
                 makeAccessible(field);
                 return field;
-            } catch (NoSuchFieldException e) {
-                continue;
+            } catch (NoSuchFieldException ignored) {
             }
         }
         return null;
@@ -205,8 +205,7 @@ public class ReflectUtils {
                 Method method = searchType.getDeclaredMethod(methodName, parameterTypes);
                 makeAccessible(method);
                 return method;
-            } catch (NoSuchMethodException e) {
-                continue;
+            } catch (NoSuchMethodException ignored) {
             }
         }
         return null;
@@ -261,15 +260,15 @@ public class ReflectUtils {
      * 如无法找到, 返回Object.class.
      */
     @SuppressWarnings("unchecked")
-    public static <T> Class<T> getClassGenricType(final Class clazz) {
-        return getClassGenricType(clazz, 0);
+    public static <T> Class<T> getClassGenericType(final Class clazz) {
+        return getClassGenericType(clazz, 0);
     }
 
     /**
      * 通过反射, 获得Class定义中声明的父类的泛型参数的类型.
      * 如无法找到, 返回Object.class.
      */
-    public static Class getClassGenricType(final Class clazz, final int index) {
+    public static Class getClassGenericType(final Class clazz, final int index) {
         Type genType = clazz.getGenericSuperclass();
 
         if (!(genType instanceof ParameterizedType)) {
@@ -297,7 +296,7 @@ public class ReflectUtils {
             throw new RuntimeException("Instance must not be null");
         }
         Class clazz = instance.getClass();
-        if (clazz != null && clazz.getName().contains(CGLIB_CLASS_SEPARATOR)) {
+        if (clazz.getName().contains(CGLIB_CLASS_SEPARATOR)) {
             Class<?> superClass = clazz.getSuperclass();
             if (superClass != null && !Object.class.equals(superClass)) {
                 return superClass;

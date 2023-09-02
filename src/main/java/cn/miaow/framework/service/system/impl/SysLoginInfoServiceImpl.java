@@ -4,7 +4,6 @@ import cn.miaow.framework.entity.system.SysLoginInfo;
 import cn.miaow.framework.mapper.system.SysLoginInfoMapper;
 import cn.miaow.framework.service.system.ISysLoginInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +14,11 @@ import java.util.List;
 @Service
 public class SysLoginInfoServiceImpl extends ServiceImpl<SysLoginInfoMapper, SysLoginInfo> implements ISysLoginInfoService {
 
-    @Autowired
-    private SysLoginInfoMapper logininforMapper;
+    private final SysLoginInfoMapper logininforMapper;
+
+    public SysLoginInfoServiceImpl(SysLoginInfoMapper logininforMapper) {
+        this.logininforMapper = logininforMapper;
+    }
 
     /**
      * 新增系统登录日志

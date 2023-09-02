@@ -8,7 +8,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author 序列生成类
- *
  * @author miaow
  */
 public class Seq {
@@ -20,9 +19,9 @@ public class Seq {
     // 机器标识
     private static final String machineCode = "A";
     // 通用接口序列数
-    private static AtomicInteger commSeq = new AtomicInteger(1);
+    private static final AtomicInteger commSeq = new AtomicInteger(1);
     // 上传接口序列数
-    private static AtomicInteger uploadSeq = new AtomicInteger(1);
+    private static final AtomicInteger uploadSeq = new AtomicInteger(1);
 
     /**
      * 获取通用序列号
@@ -75,6 +74,6 @@ public class Seq {
             atomicInt.set(1);
         }
         // 转字符串，用0左补齐
-        return StringUtils.padl(value, length);
+        return StringUtils.padding(value, length);
     }
 }

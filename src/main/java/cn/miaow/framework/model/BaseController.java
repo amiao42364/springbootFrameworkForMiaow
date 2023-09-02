@@ -8,8 +8,6 @@ import cn.miaow.framework.util.StringUtils;
 import cn.miaow.framework.util.sql.SqlUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
@@ -20,6 +18,7 @@ import java.util.List;
 /**
  * web层通用数据处理
  */
+@SuppressWarnings("unused" )
 public class BaseController {
     /**
      * 将前台传递过来的日期格式的字符串，自动转化为Date类型
@@ -63,11 +62,11 @@ public class BaseController {
     /**
      * 响应请求分页数据
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes" , "unchecked"})
     protected TableDataInfo getDataTable(List<?> list) {
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
-        rspData.setMsg("查询成功");
+        rspData.setMsg("查询成功" );
         rspData.setRows(list);
         rspData.setTotal(new PageInfo(list).getTotal());
         return rspData;
@@ -139,7 +138,7 @@ public class BaseController {
      * 页面跳转
      */
     public String redirect(String url) {
-        return StringUtils.format("redirect:{}", url);
+        return StringUtils.format("redirect:{}" , url);
     }
 
     /**

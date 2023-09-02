@@ -17,14 +17,14 @@ public interface ISysPostService extends IService<SysPost> {
      * @param post 岗位信息
      * @return 岗位列表
      */
-    public List<SysPost> selectPostList(SysPost post);
+    List<SysPost> selectPostList(SysPost post);
 
     /**
      * 查询所有岗位
      *
      * @return 岗位列表
      */
-    public List<SysPost> selectPostAll();
+    List<SysPost> selectPostAll();
 
     /**
      * 通过岗位ID查询岗位信息
@@ -32,7 +32,7 @@ public interface ISysPostService extends IService<SysPost> {
      * @param postId 岗位ID
      * @return 角色对象信息
      */
-    public SysPost selectPostById(Long postId);
+    SysPost selectPostById(Long postId);
 
     /**
      * 根据用户ID获取岗位选择框列表
@@ -40,7 +40,7 @@ public interface ISysPostService extends IService<SysPost> {
      * @param userId 用户ID
      * @return 选中岗位ID列表
      */
-    public List<Long> selectPostListByUserId(Long userId);
+    List<Long> selectPostListByUserId(Long userId);
 
     /**
      * 校验岗位名称
@@ -48,7 +48,7 @@ public interface ISysPostService extends IService<SysPost> {
      * @param post 岗位信息
      * @return 结果
      */
-    public boolean checkPostNameUnique(SysPost post);
+    boolean checkPostNameNotUnique(SysPost post);
 
     /**
      * 校验岗位编码
@@ -56,7 +56,7 @@ public interface ISysPostService extends IService<SysPost> {
      * @param post 岗位信息
      * @return 结果
      */
-    public boolean checkPostCodeUnique(SysPost post);
+    boolean checkPostCodeNotUnique(SysPost post);
 
     /**
      * 通过岗位ID查询岗位使用数量
@@ -64,7 +64,7 @@ public interface ISysPostService extends IService<SysPost> {
      * @param postId 岗位ID
      * @return 结果
      */
-    public int countUserPostById(Long postId);
+    int countUserPostById(Long postId);
 
     /**
      * 删除岗位信息
@@ -72,7 +72,8 @@ public interface ISysPostService extends IService<SysPost> {
      * @param postId 岗位ID
      * @return 结果
      */
-    public int deletePostById(Long postId);
+    @SuppressWarnings("unused" )
+    int deletePostById(Long postId);
 
     /**
      * 批量删除岗位信息
@@ -80,7 +81,7 @@ public interface ISysPostService extends IService<SysPost> {
      * @param postIds 需要删除的岗位ID
      * @return 结果
      */
-    public int deletePostByIds(Long[] postIds);
+    int deletePostByIds(Long[] postIds);
 
     /**
      * 新增保存岗位信息
@@ -88,7 +89,7 @@ public interface ISysPostService extends IService<SysPost> {
      * @param post 岗位信息
      * @return 结果
      */
-    public int insertPost(SysPost post);
+    int insertPost(SysPost post);
 
     /**
      * 修改保存岗位信息
@@ -96,5 +97,5 @@ public interface ISysPostService extends IService<SysPost> {
      * @param post 岗位信息
      * @return 结果
      */
-    public int updatePost(SysPost post);
+    int updatePost(SysPost post);
 }

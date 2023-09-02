@@ -32,7 +32,7 @@ public class SysOperationLogController extends BaseController {
     @GetMapping("/list" )
     public TableDataInfo list(SysOperationLog operationLog) {
         startPage();
-        List<SysOperationLog> list = operationLogService.selectOperLogList(operationLog);
+        List<SysOperationLog> list = operationLogService.selectOperationLogList(operationLog);
         return getDataTable(list);
     }
 
@@ -40,7 +40,7 @@ public class SysOperationLogController extends BaseController {
     @PreAuthorize("@ss.hasPermission('monitor:operlog:export')" )
     @PostMapping("/export" )
     public void export(HttpServletResponse response, SysOperationLog operationLog) {
-        List<SysOperationLog> list = operationLogService.selectOperLogList(operationLog);
+        List<SysOperationLog> list = operationLogService.selectOperationLogList(operationLog);
         ExcelUtil<SysOperationLog> util = new ExcelUtil<>(SysOperationLog.class);
         util.exportExcel(response, list, "操作日志" );
     }
@@ -49,14 +49,14 @@ public class SysOperationLogController extends BaseController {
     @PreAuthorize("@ss.hasPermission('monitor:operlog:remove')" )
     @DeleteMapping("/{operationIds}" )
     public AjaxResult remove(@PathVariable Long[] operationIds) {
-        return toAjax(operationLogService.deleteOperLogByIds(operationIds));
+        return toAjax(operationLogService.deleteOperationLogByIds(operationIds));
     }
 
     @Log(title = "操作日志" , businessType = BusinessType.CLEAN)
     @PreAuthorize("@ss.hasPermission('monitor:operlog:remove')" )
     @DeleteMapping("/clean" )
     public AjaxResult clean() {
-        operationLogService.cleanOperLog();
+        operationLogService.cleanOperationLog();
         return success();
     }
 }

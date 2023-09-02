@@ -39,7 +39,7 @@ public class CacheController {
 
     @PreAuthorize("@ss.hasPermission('monitor:cache:list')" )
     @GetMapping()
-    public AjaxResult getInfo() throws Exception {
+    public AjaxResult getInfo() {
         Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::info);
         Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats" ));
         Object dbSize = redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::dbSize);

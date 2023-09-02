@@ -7,12 +7,14 @@ import com.alibaba.fastjson2.JSONArray;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 字典工具类
  *
  * @author miaow
  */
+@SuppressWarnings("unused" )
 public class DictUtils {
     /**
      * 分隔符
@@ -22,18 +24,18 @@ public class DictUtils {
     /**
      * 设置字典缓存
      *
-     * @param key       参数键
-     * @param dictDatas 字典数据列表
+     * @param key      参数键
+     * @param dictData 字典数据列表
      */
-    public static void setDictCache(String key, List<SysDictData> dictDatas) {
-        SpringUtils.getBean(RedisCache.class).setCacheObject(getCacheKey(key), dictDatas);
+    public static void setDictCache(String key, List<SysDictData> dictData) {
+        SpringUtils.getBean(RedisCache.class).setCacheObject(getCacheKey(key), dictData);
     }
 
     /**
      * 获取字典缓存
      *
      * @param key 参数键
-     * @return dictDatas 字典数据列表
+     * @return dictData 字典数据列表
      */
     public static List<SysDictData> getDictCache(String key) {
         JSONArray arrayCache = SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKey(key));
@@ -75,11 +77,11 @@ public class DictUtils {
      */
     public static String getDictLabel(String dictType, String dictValue, String separator) {
         StringBuilder propertyString = new StringBuilder();
-        List<SysDictData> datas = getDictCache(dictType);
+        List<SysDictData> data = getDictCache(dictType);
 
-        if (StringUtils.isNotNull(datas)) {
+        if (StringUtils.isNotNull(data)) {
             if (StringUtils.containsAny(separator, dictValue)) {
-                for (SysDictData dict : datas) {
+                for (SysDictData dict : data) {
                     for (String value : dictValue.split(separator)) {
                         if (value.equals(dict.getDictValue())) {
                             propertyString.append(dict.getDictLabel()).append(separator);
@@ -88,7 +90,7 @@ public class DictUtils {
                     }
                 }
             } else {
-                for (SysDictData dict : datas) {
+                for (SysDictData dict : data) {
                     if (dictValue.equals(dict.getDictValue())) {
                         return dict.getDictLabel();
                     }
@@ -108,10 +110,10 @@ public class DictUtils {
      */
     public static String getDictValue(String dictType, String dictLabel, String separator) {
         StringBuilder propertyString = new StringBuilder();
-        List<SysDictData> datas = getDictCache(dictType);
+        List<SysDictData> data = getDictCache(dictType);
 
-        if (StringUtils.containsAny(separator, dictLabel) && StringUtils.isNotEmpty(datas)) {
-            for (SysDictData dict : datas) {
+        if (StringUtils.containsAny(separator, dictLabel) && StringUtils.isNotEmpty(data)) {
+            for (SysDictData dict : Objects.requireNonNull(data)) {
                 for (String label : dictLabel.split(separator)) {
                     if (label.equals(dict.getDictLabel())) {
                         propertyString.append(dict.getDictValue()).append(separator);
@@ -120,7 +122,7 @@ public class DictUtils {
                 }
             }
         } else {
-            for (SysDictData dict : datas) {
+            for (SysDictData dict : Objects.requireNonNull(data)) {
                 if (dictLabel.equals(dict.getDictLabel())) {
                     return dict.getDictValue();
                 }
@@ -142,7 +144,7 @@ public class DictUtils {
      * 清空字典缓存
      */
     public static void clearDictCache() {
-        Collection<String> keys = SpringUtils.getBean(RedisCache.class).keys(CacheConstants.SYS_DICT_KEY + "*");
+        Collection<String> keys = SpringUtils.getBean(RedisCache.class).keys(CacheConstants.SYS_DICT_KEY + "*" );
         SpringUtils.getBean(RedisCache.class).deleteObject(keys);
     }
 

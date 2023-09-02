@@ -1,14 +1,18 @@
 package cn.miaow.framework.exception;
 
+import lombok.Getter;
+
 /**
  * 业务异常
  */
+@SuppressWarnings("unused" )
 public final class ServiceException extends RuntimeException {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1777277730468142228L;
     /**
      * 错误码
      */
+    @Getter
     private Integer code;
 
     /**
@@ -18,9 +22,8 @@ public final class ServiceException extends RuntimeException {
 
     /**
      * 错误明细，内部调试错误
-     * <p>
-     * 和 {@link CommonResult#getDetailMessage()} 一致的设计
      */
+    @Getter
     private String detailMessage;
 
     /**
@@ -38,10 +41,6 @@ public final class ServiceException extends RuntimeException {
         this.code = code;
     }
 
-    public String getDetailMessage() {
-        return detailMessage;
-    }
-
     public ServiceException setDetailMessage(String detailMessage) {
         this.detailMessage = detailMessage;
         return this;
@@ -57,7 +56,4 @@ public final class ServiceException extends RuntimeException {
         return this;
     }
 
-    public Integer getCode() {
-        return code;
-    }
 }

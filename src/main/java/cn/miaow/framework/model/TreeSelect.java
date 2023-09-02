@@ -3,17 +3,19 @@ package cn.miaow.framework.model;
 import cn.miaow.framework.entity.system.SysDept;
 import cn.miaow.framework.entity.system.SysMenu;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Treeselect树结构实体类
+ * TreeSelect树结构实体类
  */
+@Data
 public class TreeSelect implements Serializable {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = -9057684174555051530L;
     /**
      * 节点ID
      */
@@ -30,9 +32,6 @@ public class TreeSelect implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<TreeSelect> children;
 
-    public TreeSelect() {
-
-    }
 
     public TreeSelect(SysDept dept) {
         this.id = dept.getDeptId();
@@ -46,27 +45,4 @@ public class TreeSelect implements Serializable {
         this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public List<TreeSelect> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<TreeSelect> children) {
-        this.children = children;
-    }
 }
